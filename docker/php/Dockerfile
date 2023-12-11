@@ -20,10 +20,8 @@ RUN apk --update upgrade \
     bash \
     icu-dev \
     libzip-dev \
-    rabbitmq-c-dev \
     linux-headers \
     oniguruma-dev
-
 
 # Install PHP extensions
 RUN docker-php-ext-install \
@@ -35,13 +33,9 @@ RUN docker-php-ext-install \
     pdo_mysql \
     mbstring \
     && pecl install  \
-    amqp  \
     xdebug-${XDEBUG_VERSION} \
-    redis \
     && docker-php-ext-enable  \
-    amqp  \
-    xdebug \
-    redis
+    xdebug
 
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
