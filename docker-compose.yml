@@ -1,0 +1,47 @@
+version: "3.5"
+
+services:
+
+  php:
+    container_name: symfony_php
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    build:
+      context: ./docker/php
+      args:
+        UID: $U_ID
+    volumes:
+      - .:/app
+    networks:
+      - symfony_network
+    command: symfony serve --dir=./public --port=8000
+
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.2
+    restart: always
+    ports:
+      - "3336:3306"
+    environment:
+      MYSQL_DATABASE: symfony_database
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - symfony_network
+    command:
+      [
+        "mysqld",
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci"
+      ]
+
+networks:
+  symfony_network:
+
+volumes:
+  mysql_data:
+
+

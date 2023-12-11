@@ -1,0 +1,7 @@
+home_controllers:
+  resource: ../../src/Home/Infrastructure/Adapter/Controller
+  type: attribute
+
+kernel:
+  resource: App\Kernel
+  type: attribute

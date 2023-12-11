@@ -1,0 +1,13 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # -- COMMON MODULE --
+
+  Home\:
+    resource: ../../../src/Home
+
+  Home\Infrastructure\Adapter\Controller\:
+    resource: ../../../src/Home/Infrastructure/Adapter/Controller
+    tags: [ controller.service_arguments ]
