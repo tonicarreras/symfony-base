@@ -20,7 +20,8 @@ services:
       tags: [ common.query_handler ]
 
   # In-Memory Event Bus
-  Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus:
+  Common/Infrastructure/Adapter/Bus/Event/Symfony/InMemory/InMemorySymfonyEventBus:
+    class: Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus
     arguments: [ !tagged_iterator common.domain_event_subscriber ]
     lazy: true
 
@@ -40,8 +41,3 @@ services:
 
   # -- IMPLEMENTATIONS SELECTOR --
   Common\Domain\Bus\Event\EventBus: '@Common/Infrastructure/Adapter/Bus/Event/Symfony/InMemory/InMemorySymfonyEventBus'
-
-  Common/Infrastructure/Adapter/Bus/Event/Symfony/InMemory/InMemorySymfonyEventBus:
-    class: Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus
-    arguments: [ !tagged_iterator common.domain_event_subscriber ]
-    lazy: true
