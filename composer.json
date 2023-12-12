@@ -7,11 +7,9 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.3",
-
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-pdo": "*",
-
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.17",
@@ -19,7 +17,9 @@
         "symfony/dotenv": "7.0.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.0.*",
+        "symfony/messenger": "7.0.*",
         "symfony/runtime": "7.0.*",
+        "symfony/uid": "7.0.*",
         "symfony/yaml": "7.0.*"
     },
     "config": {
