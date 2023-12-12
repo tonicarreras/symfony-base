@@ -1,5 +1,9 @@
 home_controllers:
-  resource: ../../src/Home/Infrastructure/Adapter/Controller
+  resource: ../../src/Home/Infrastructure/Adapter/REST/Controller
+  type: attribute
+
+user_controllers:
+  resource: ../../src/User/Infrastructure/Adapter/REST/Controller
   type: attribute
 
 kernel:

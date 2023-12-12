@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Home\Infrastructure\Adapter\Controller;
+namespace Home\Infrastructure\Adapter\REST\Controller;
 
 use Composer\InstalledVersions;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

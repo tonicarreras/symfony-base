@@ -8,6 +8,6 @@ services:
   User\:
     resource: ../../../src/User
 
-  User\Infrastructure\Adapter\Controller\:
+  User\Infrastructure\Adapter\REST\Controller\:
     resource: ../../../src/User/Infrastructure/Adapter/REST/Controller
     tags: [ controller.service_arguments ]
