@@ -44,3 +44,6 @@ dump-autoload: ## dump-autoload
 
 phpunit: ## Run phpunit
 	docker exec --user ${UID} ${PHP_CONTAINER} php ./vendor/bin/phpunit
+
+psalm: ## Run psalm
+	docker exec --user ${UID} ${PHP_CONTAINER} php ./vendor/bin/psalm

@@ -86,6 +86,7 @@
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "7.0.*",
         "symfony/css-selector": "7.0.*",
-        "symfony/phpunit-bridge": "^7.0"
+        "symfony/phpunit-bridge": "^7.0",
+        "vimeo/psalm": "^5.17"
     }
 }
