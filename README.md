@@ -2,15 +2,15 @@
 > - Version **Symfony 7.0.***
 
 ## 📖 Table of contents 
-- [Introduction](#introduction-)
-- [Installation](#installation-)
-    - [Docker](#docker-)
-    - [Manual installation](#manual-installation-)
-- [Bundles](#bundles-)
-- [Acknowledgments](#acknowledgments)
+- [Introduction](#-introduction)
+- [Installation](#-installation)
+    - [Docker](#-docker)
+    - [Manual installation](#-manual-installation)
+- [Bundles](#-bundles)
+- [Acknowledgments](#-acknowledgments)
 
 
-## 🌟 Introduction 
+## 🌟 Introduction
 This project is a template for creating a Symfony application using the hexagonal architecture. It is based on the [php-ddd-example](https://github.com/CodelyTV/php-ddd-example) project, but with some changes and improvements.
 
 ## 🚀 Installation
@@ -21,7 +21,7 @@ This project is a template for creating a Symfony application using the hexagona
 git clone https://github.com/tonicarreras/symfony-base.git
 ```
 
-### 🐳 Docker 
+### 🐳 Docker
 
 - **Build and run the Docker containers (Makefile).**
 
@@ -50,7 +50,7 @@ Make sh
 You can access the application in your web browser at:
 - http://localhost:8000/
 
-### 🖥 Manual installation 
+### 🖥 Manual installation
 
 #### Prerequisites for manual installation
 - PHP 8.3 or higher
@@ -84,7 +84,7 @@ symfony server:start
 ```
 For more details on setting up Symfony, please refer to the [official Symfony documentation](https://symfony.com/doc/current/setup.html)
 
-## 🛠 Bundles 
+## 🛠 Bundles
 [bundles.php](config/bundles.php)
 
 ## 🤭 Acknowledgments
