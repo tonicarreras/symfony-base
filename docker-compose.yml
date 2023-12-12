@@ -15,6 +15,8 @@ services:
       - .:/app
     networks:
       - symfony_network
+    depends_on:
+      - mysql
     command: symfony serve --dir=./public --port=8000
 
 
