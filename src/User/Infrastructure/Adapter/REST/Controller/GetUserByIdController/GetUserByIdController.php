@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace User\Infrastructure\Adapter\REST\Controller\GetUserByIdController;
 
-use Common\Infrastructure\Adapter\REST\Controller\AbstractCustomController;
+use Common\Infrastructure\Adapter\REST\Controller\CustomController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use User\Application\Query\GetUserById\GetUserByIdQuery;
 use User\Application\Query\GetUserById\GetUserByIdResponse;
 
-class GetUserByIdController extends AbstractCustomController
+class GetUserByIdController extends CustomController
 {
 
     /**

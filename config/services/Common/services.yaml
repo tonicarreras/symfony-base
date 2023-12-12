@@ -38,3 +38,10 @@ services:
   Common\Infrastructure\Adapter\Bus\Event\DomainEventSubscriberLocator:
     arguments: [ !tagged_iterator common.domain_event_subscriber ]
 
+  # -- IMPLEMENTATIONS SELECTOR --
+  Common\Domain\Bus\Event\EventBus: '@Common/Infrastructure/Adapter/Bus/Event/Symfony/InMemory/InMemorySymfonyEventBus'
+
+  Common/Infrastructure/Adapter/Bus/Event/Symfony/InMemory/InMemorySymfonyEventBus:
+    class: Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus
+    arguments: [ !tagged_iterator common.domain_event_subscriber ]
+    lazy: true
