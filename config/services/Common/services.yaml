@@ -1,16 +1,18 @@
 services:
   _defaults:
-    autowire: true
-    autoconfigure: true
+    autowire: true  # Enables automatic injection of dependencies.
+    autoconfigure: true  # Enables automatic configuration of services.
 
   # -- COMMON MODULE --
 
   Common\:
     resource: ../../../src/Common
 
+  # Defines the common.domain_event_subscriber service.
   common.domain_event_subscriber:
     class: Common\Domain\Bus\Event\DomainEventSubscriber
 
+  # Instance configuration for specific classes.
   _instanceof:
     Common\Domain\Bus\Event\DomainEventSubscriber:
       tags: [ common.domain_event_subscriber ]
@@ -20,24 +22,30 @@ services:
       tags: [ common.query_handler ]
 
   # In-Memory Event Bus
+  # Defines the InMemorySymfonyEventBus service.
   Common/Infrastructure/Adapter/Bus/Event/Symfony/InMemory/InMemorySymfonyEventBus:
     class: Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus
-    arguments: [ !tagged_iterator common.domain_event_subscriber ]
-    lazy: true
+    arguments: [ !tagged_iterator common.domain_event_subscriber ]  # Injects all tagged domain event subscribers.
+    lazy: true  # The service is only initialized when it's actually needed.
 
+  # Defines the InMemorySymfonyCommandBus service.
   Common\Infrastructure\Adapter\Bus\Command\Symfony\InMemorySymfonyCommandBus:
-    arguments: [ !tagged_iterator common.command_handler ]
+    arguments: [ !tagged_iterator common.command_handler ]  # Injects all tagged command handlers.
 
+  # Defines the InMemorySymfonyQueryBus service.
   Common\Infrastructure\Adapter\Bus\Query\Symfony\InMemorySymfonyQueryBus:
-    arguments: [ !tagged_iterator common.query_handler ]
+    arguments: [ !tagged_iterator common.query_handler ]  # Injects all tagged query handlers.
 
   # Domain Event Mapping
+  # Defines the DomainEventMapping service.
   Common\Infrastructure\Adapter\Bus\Event\DomainEventMapping:
-    arguments: [ !tagged_iterator common.domain_event_subscriber ]
+    arguments: [ !tagged_iterator common.domain_event_subscriber ]  # Injects all tagged domain event subscribers.
 
   # Domain Event Subscriber Locator
+  # Defines the DomainEventSubscriberLocator service.
   Common\Infrastructure\Adapter\Bus\Event\DomainEventSubscriberLocator:
-    arguments: [ !tagged_iterator common.domain_event_subscriber ]
+    arguments: [ !tagged_iterator common.domain_event_subscriber ]  # Injects all tagged domain event subscribers.
 
   # -- IMPLEMENTATIONS SELECTOR --
+  # Defines the EventBus service and sets its implementation to InMemorySymfonyEventBus.
   Common\Domain\Bus\Event\EventBus: '@Common/Infrastructure/Adapter/Bus/Event/Symfony/InMemory/InMemorySymfonyEventBus'
