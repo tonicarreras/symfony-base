@@ -1,31 +1,27 @@
 # Symfony base
 > - Version **Symfony 7.0.***
 
-## Introduction 🌟
+## 📖 Table of contents 
+- [Introduction](#introduction-)
+- [Installation](#installation-)
+    - [Docker](#docker-)
+    - [Manual installation](#manual-installation-)
+- [Bundles](#bundles-)
+- [Acknowledgments](#acknowledgments)
+
+
+## 🌟 Introduction 
 This project is a template for creating a Symfony application using the hexagonal architecture. It is based on the [php-ddd-example](https://github.com/CodelyTV/php-ddd-example) project, but with some changes and improvements.
 
-## Prerequisites for manual installation 🧾️
-- PHP 8.3 or higher
-- Composer
-- MySQL or MariaDB
-- Symfony CLI (optional)
-
-> [!IMPORTANT]
-> #### Required PHP extensions
-> This project requires the following PHP extensions to be installed and enabled:
-> - **ext-ctype**: Used for character type checking.
-> - **ext-iconv**: For character encoding conversion.
-> - **ext-pdo**: Essential for PHP Data Object (PDO) database connections.
-
-## Installation 🚀
+## 🚀 Installation
 
 - **Clone the repository from GitHub.**
 
 ```shell
-git clone https://github.com/tonicarreras/symfony-hexagonal-project.git
+git clone https://github.com/tonicarreras/symfony-base.git
 ```
 
-### Docker 🐳
+### 🐳 Docker 
 
 - **Build and run the Docker containers (Makefile).**
 
@@ -54,7 +50,20 @@ Make sh
 You can access the application in your web browser at:
 - http://localhost:8000/
 
-### Manual installation 🖥
+### 🖥 Manual installation 
+
+#### Prerequisites for manual installation
+- PHP 8.3 or higher
+- Composer
+- MySQL or MariaDB
+- Symfony CLI (optional)
+
+> [!IMPORTANT]
+> #### Required PHP extensions
+> This project requires the following PHP extensions to be installed and enabled:
+> - **ext-ctype**: Used for character type checking.
+> - **ext-iconv**: For character encoding conversion.
+> - **ext-pdo**: Essential for PHP Data Object (PDO) database connections.
 
 - Install dependencies:
 ```shell
@@ -75,10 +84,10 @@ symfony server:start
 ```
 For more details on setting up Symfony, please refer to the [official Symfony documentation](https://symfony.com/doc/current/setup.html)
 
-## Bundles 🛠
+## 🛠 Bundles 
 [bundles.php](config/bundles.php)
 
-## Acknowledgments
+## 🤭 Acknowledgments
 
 This project has benefited from ideas and code from the following projects and resources:
 - [php-ddd-example](https://github.com/CodelyTV/php-ddd-example): Example of a PHP application using Domain-Driven Design (DDD) and Command Query Responsibility Segregation (CQRS) principles keeping the code as simple as possible (CodelyTV).
