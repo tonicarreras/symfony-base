@@ -14,8 +14,9 @@ namespace Common\Domain\Exception\Constant;
 class ExceptionMessage
 {
     public const string INTERNAL = 'internal_error';
-    public const string VALIDATION = 'validation_error';
+    public const string VALIDATION = 'validation';
     public const string NOT_FOUND = 'not_found';
     public const string DUPLICATE = 'duplicate';
     public const string NOT_SUPPORTED = 'not_supported';
+
 }

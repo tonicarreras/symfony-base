@@ -1,0 +1,13 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # -- USER MODULE --
+
+  User\:
+    resource: ../../../src/User
+
+  User\Infrastructure\Adapter\Controller\:
+    resource: ../../../src/User/Infrastructure/Adapter/REST/Controller
+    tags: [ controller.service_arguments ]

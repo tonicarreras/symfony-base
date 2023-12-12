@@ -3,7 +3,7 @@ services:
     autowire: true
     autoconfigure: true
 
-  # -- COMMON MODULE --
+  # -- HOME MODULE --
 
   Home\:
     resource: ../../../src/Home

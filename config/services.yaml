@@ -1,3 +1,4 @@
 imports:
     - { resource: ./services/Common/services.yaml }
     - { resource: ./services/Home/services.yaml }
+    - { resource: ./services/User/services.yaml }

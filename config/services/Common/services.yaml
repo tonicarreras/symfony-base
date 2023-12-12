@@ -7,3 +7,34 @@ services:
 
   Common\:
     resource: ../../../src/Common
+
+  common.domain_event_subscriber:
+    class: Common\Domain\Bus\Event\DomainEventSubscriber
+
+  _instanceof:
+    Common\Domain\Bus\Event\DomainEventSubscriber:
+      tags: [ common.domain_event_subscriber ]
+    Common\Application\Bus\Command\CommandHandler:
+      tags: [ common.command_handler ]
+    Common\Application\Bus\Query\QueryHandler:
+      tags: [ common.query_handler ]
+
+  # In-Memory Event Bus
+  Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus:
+    arguments: [ !tagged_iterator common.domain_event_subscriber ]
+    lazy: true
+
+  Common\Infrastructure\Adapter\Bus\Command\Symfony\InMemorySymfonyCommandBus:
+    arguments: [ !tagged_iterator common.command_handler ]
+
+  Common\Infrastructure\Adapter\Bus\Query\Symfony\InMemorySymfonyQueryBus:
+    arguments: [ !tagged_iterator common.query_handler ]
+
+  # Domain Event Mapping
+  Common\Infrastructure\Adapter\Bus\Event\DomainEventMapping:
+    arguments: [ !tagged_iterator common.domain_event_subscriber ]
+
+  # Domain Event Subscriber Locator
+  Common\Infrastructure\Adapter\Bus\Event\DomainEventSubscriberLocator:
+    arguments: [ !tagged_iterator common.domain_event_subscriber ]
+
