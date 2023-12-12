@@ -56,7 +56,7 @@ final readonly class InMemorySymfonyQueryBus implements QueryBus
 
             return $stamp ? $stamp->getResult() : throw new QueryNotRegisteredException($query);
         } catch (NoHandlerForMessageException) {
-            throw new QueryNotRegisteredException($query);
+            throw new QueryNotRegisteredException();
         }
     }
 }
