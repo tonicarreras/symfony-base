@@ -1,5 +1,7 @@
 {
+    "name": "tonicarreras/symfony-base",
     "type": "project",
+    "version": "0.1.0",
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
