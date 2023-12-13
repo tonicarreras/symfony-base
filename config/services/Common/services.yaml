@@ -16,6 +16,22 @@ services:
     tags:
       - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
+  # Monolog
+  Monolog\Logger:
+    arguments:
+      $name: 'request'
+      $handlers: ['@monolog.handler']
+
+  monolog.handler:
+    class: Monolog\Handler\StreamHandler
+    arguments:
+      $level: 'error'
+      $stream: '%kernel.logs_dir%/exception_%kernel.environment%.log'
+
+  Common\Infrastructure\Adapter\Logger\MonologLogger:
+    arguments:
+      $logger: '@Monolog\Logger'
+
   # Instance configuration for specific classes.
   _instanceof:
     Common\Domain\Bus\Event\DomainEventSubscriber:

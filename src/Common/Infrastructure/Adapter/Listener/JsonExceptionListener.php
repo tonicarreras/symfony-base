@@ -8,12 +8,20 @@ use Common\Domain\Exception\ApiException;
 use Common\Domain\Exception\Constant\ExceptionMessage;
 use Common\Domain\Exception\Constant\ExceptionType;
 use Common\Domain\Exception\ValidationException;
+use Common\Domain\Logger\Logger;
 use Common\Infrastructure\Adapter\Response\ErrorResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 
 class JsonExceptionListener
 {
+
+    public function __construct(
+        private Logger $logger
+    )
+    {
+    }
+
     /**
      * This method is called when an exception occurs in the kernel.
      *
@@ -24,6 +32,7 @@ class JsonExceptionListener
         $exception = $event->getThrowable();
         $response = $this->createJsonResponse($exception);
         $event->setResponse($response);
+        $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTrace()]);
     }
 
     /**
