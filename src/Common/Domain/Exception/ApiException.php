@@ -6,7 +6,6 @@ namespace Common\Domain\Exception;
 
 use Common\Domain\Exception\Constant\ExceptionMessage;
 use Common\Domain\Exception\Constant\ExceptionType;
-use Exception;
 
 /**
  * ApiException class to represent API-specific exceptions.

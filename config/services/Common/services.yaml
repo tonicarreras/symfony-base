@@ -12,6 +12,10 @@ services:
   common.domain_event_subscriber:
     class: Common\Domain\Bus\Event\DomainEventSubscriber
 
+  Common\Infrastructure\Adapter\Listener\JsonExceptionListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
   # Instance configuration for specific classes.
   _instanceof:
     Common\Domain\Bus\Event\DomainEventSubscriber:
