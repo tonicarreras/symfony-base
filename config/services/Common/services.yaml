@@ -8,10 +8,6 @@ services:
   Common\:
     resource: ../../../src/Common
 
-  # Defines the common.domain_event_subscriber service.
-  common.domain_event_subscriber:
-    class: Common\Domain\Bus\Event\DomainEventSubscriber
-
   Common\Infrastructure\Adapter\Listener\JsonExceptionListener:
     tags:
       - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
@@ -43,8 +39,7 @@ services:
 
   # In-Memory Event Bus
   # Defines the InMemorySymfonyEventBus service.
-  Common/Infrastructure/Adapter/Bus/Event/Symfony/InMemory/InMemorySymfonyEventBus:
-    class: Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus
+  Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus:
     arguments: [ !tagged_iterator common.domain_event_subscriber ]  # Injects all tagged domain event subscribers.
     lazy: true  # The service is only initialized when it's actually needed.
 
@@ -68,4 +63,4 @@ services:
 
   # -- IMPLEMENTATIONS SELECTOR --
   # Defines the EventBus service and sets its implementation to InMemorySymfonyEventBus.
-  Common\Domain\Bus\Event\EventBus: '@Common/Infrastructure/Adapter/Bus/Event/Symfony/InMemory/InMemorySymfonyEventBus'
+  Common\Domain\Bus\Event\EventBus: '@Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus'
