@@ -26,14 +26,12 @@ final readonly class InMemorySymfonyCommandBus implements CommandBus
 
     private function initializeMessageBus(iterable $commandHandlers): MessageBus
     {
-        return new MessageBus(
-            [
+        return new MessageBus([
                 new HandleMessageMiddleware(
                     new HandlersLocator(
                         CallableFirstParameterExtractor::forCallables($commandHandlers)
                     )
-                ),
-            ]
+                ),]
         );
     }
 
@@ -52,8 +50,10 @@ final readonly class InMemorySymfonyCommandBus implements CommandBus
     {
         try {
             $this->bus->dispatch($command);
+
         } catch (NoHandlerForMessageException) {
             throw new CommandNotRegisteredException();
+
         } catch (HandlerFailedException $error) {
             throw $error->getPrevious() ?? $error;
         }

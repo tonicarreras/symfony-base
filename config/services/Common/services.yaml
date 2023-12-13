@@ -16,7 +16,7 @@ services:
   Monolog\Logger:
     arguments:
       $name: 'request'
-      $handlers: ['@monolog.handler']
+      $handlers: [ '@monolog.handler' ]
 
   monolog.handler:
     class: Monolog\Handler\StreamHandler
@@ -64,3 +64,5 @@ services:
   # -- IMPLEMENTATIONS SELECTOR --
   # Defines the EventBus service and sets its implementation to InMemorySymfonyEventBus.
   Common\Domain\Bus\Event\EventBus: '@Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus'
+  Common\Application\Bus\Command\CommandBus: '@Common\Infrastructure\Adapter\Bus\Command\Symfony\InMemorySymfonyCommandBus'
+  Common\Application\Bus\Query\QueryBus: '@Common\Infrastructure\Adapter\Bus\Query\Symfony\InMemorySymfonyQueryBus'

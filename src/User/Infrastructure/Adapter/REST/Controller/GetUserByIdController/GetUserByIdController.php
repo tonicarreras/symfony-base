@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace User\Infrastructure\Adapter\REST\Controller\GetUserByIdController;
 
+use Common\Infrastructure\Adapter\Response\SuccessResponse;
 use Common\Infrastructure\Adapter\REST\Controller\CustomController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +13,6 @@ use User\Application\Query\GetUserById\GetUserByIdResponse;
 
 class GetUserByIdController extends CustomController
 {
-
     /**
      * Retrieves a user by their uuid.
      *
@@ -26,6 +26,6 @@ class GetUserByIdController extends CustomController
         /** @var GetUserByIdResponse $response */
         $response = $this->ask(new GetUserByIdQuery($id));
 
-        return $this->json($response);
+        return SuccessResponse::get($response);
     }
 }

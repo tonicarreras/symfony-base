@@ -9,11 +9,15 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 /**
  * Represents the data transfer object for user registration requests.
  */
-class RegistrationRequestDto implements PasswordAuthenticatedUserInterface
+readonly class RegistrationRequestDto implements PasswordAuthenticatedUserInterface
 {
-    public ?string $username = null;
-    public ?string $password = null;
-    public ?array $roles = null;
+    public function __construct(
+        public ?string $username,
+        public ?string $password,
+        public ?array  $roles
+    )
+    {
+    }
 
     /**
      * Gets the password.
@@ -25,33 +29,4 @@ class RegistrationRequestDto implements PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    /**
-     * Sets the username.
-     *
-     * @param string|null $username the username
-     */
-    public function setUsername(?string $username): void
-    {
-        $this->username = $username;
-    }
-
-    /**
-     * Sets the password.
-     *
-     * @param string|null $password the password
-     */
-    public function setPassword(?string $password): void
-    {
-        $this->password = $password;
-    }
-
-    /**
-     * Sets the roles.
-     *
-     * @param array|null $roles the roles
-     */
-    public function setRoles(?array $roles): void
-    {
-        $this->roles = $roles;
-    }
 }

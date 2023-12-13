@@ -32,11 +32,13 @@ class RegistrationController extends CustomController
         UserPasswordHasherInterface                 $passwordHasher): JsonResponse
     {
         $validator->validateAndThrows($requestDTO);
-        $password = $passwordHasher->hashPassword($requestDTO, $requestDTO->password);
 
-        $this->dispatch(
-            new CreateUserCommand($requestDTO->username, $password, $requestDTO->roles)
-        );
+        //PossiblyNullArgument is suppressed because the $requestDTO is validated in the CreateUserValidator
+        /** @psalm-suppress PossiblyNullArgument */
+        $password = $passwordHasher->hashPassword($requestDTO, $requestDTO->password);
+        /** @psalm-suppress PossiblyNullArgument */
+        $this->dispatch(new CreateUserCommand($requestDTO->username, $password, $requestDTO->roles));
+
         return SuccessResponse::create();
     }
 }

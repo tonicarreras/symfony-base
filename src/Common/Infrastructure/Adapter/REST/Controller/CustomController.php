@@ -8,7 +8,6 @@ use Common\Application\Bus\Query\Query;
 use Common\Application\Bus\Query\QueryBus;
 use Common\Application\Bus\Query\QueryResponse;
 use Common\Application\Mediator\CommandQueryMediator;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * The CustomController class extends the AbstractController class provided by Symfony.
@@ -16,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  * This class provides a unified interface for dispatching commands and queries in the context of a REST controller.
  * It encapsulates the dependencies on the CommandBus and QueryBus, and provides methods for dispatching commands and queries.
  */
-class CustomController extends AbstractController implements CommandQueryMediator
+class CustomController implements CommandQueryMediator
 {
     /**
      * The constructor initializes the CustomController with a QueryBus and a CommandBus.

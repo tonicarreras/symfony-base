@@ -14,7 +14,7 @@ use Common\Domain\Exception\Constant\ExceptionMessage;
 final class QueryNotRegisteredException extends ApiException
 {
     public const int STATUS_CODE = 409;
-    public const string QUERY_NOT_REGISTERED = 'query_not_registered';
+    public const string QUERY_NOT_REGISTERED = 'query_handler_not_registered';
 
     /**
      * The constructor initializes the QueryNotRegisteredException with a status code and an error message.

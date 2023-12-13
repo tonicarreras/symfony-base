@@ -13,7 +13,7 @@ use Common\Domain\Exception\ApiException;
 final class CommandNotRegisteredException extends ApiException
 {
     public const int STATUS_CODE = 409;
-    public const string COMMAND_NOT_REGISTERED = 'command_not_registered';
+    public const string COMMAND_NOT_REGISTERED = 'command_handler_not_registered';
 
 
     /**

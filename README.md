@@ -27,14 +27,14 @@ git clone https://github.com/tonicarreras/symfony-base.git
 
 ```shell
 # Build and run Docker containers
-Make install
+make install
 ``` 
 
 - **Terminal**
 
 ```shell
 # Enter the Docker container's terminal
-Make sh
+make sh
 ```
 
 - **Database MySql (MariaDB)**
