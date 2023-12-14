@@ -51,18 +51,6 @@ services:
   Common\Infrastructure\Adapter\Bus\Query\Symfony\InMemorySymfonyQueryBus:
     arguments: [ !tagged_iterator common.query_handler ]  # Injects all tagged query handlers.
 
-  # Domain Event Mapping
-  # Defines the DomainEventMapping service.
-  Common\Infrastructure\Adapter\Bus\Event\DomainEventMapping:
-    arguments: [ !tagged_iterator common.domain_event_subscriber ]  # Injects all tagged domain event subscribers.
-
-  # Domain Event Subscriber Locator
-  # Defines the DomainEventSubscriberLocator service.
-  Common\Infrastructure\Adapter\Bus\Event\DomainEventSubscriberLocator:
-    arguments: [ !tagged_iterator common.domain_event_subscriber ]  # Injects all tagged domain event subscribers.
-
   # -- IMPLEMENTATIONS SELECTOR --
   # Defines the EventBus service and sets its implementation to InMemorySymfonyEventBus.
   Common\Domain\Bus\Event\EventBus: '@Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus'
-  Common\Application\Bus\Command\CommandBus: '@Common\Infrastructure\Adapter\Bus\Command\Symfony\InMemorySymfonyCommandBus'
-  Common\Application\Bus\Query\QueryBus: '@Common\Infrastructure\Adapter\Bus\Query\Symfony\InMemorySymfonyQueryBus'

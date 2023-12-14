@@ -52,9 +52,9 @@ final class MySqlDoctrineEventBus implements EventBus
         $id = $this->connection->quote($domainEvent->eventId());
         $aggregateId = $this->connection->quote($domainEvent->aggregateId());
         $name = $this->connection->quote($domainEvent::eventName());
-        $body = $this->connection->quote(json_encode($domainEvent->toPrimitives()));
+        $body = $this->connection->quote(json_encode($domainEvent->toPrimitives(), JSON_THROW_ON_ERROR));
         $occurredOn = $this->connection->quote(
-            $this->stringToDate($domainEvent->occurredOn())->format(self::DATABASE_TIMESTAMP_FORMAT)
+            self::stringToDate($domainEvent->occurredOn())->format(self::DATABASE_TIMESTAMP_FORMAT)
         );
 
         $this->connection->executeStatement(

@@ -25,9 +25,10 @@ abstract readonly class DomainEvent
      */
     public function __construct(
         private string $aggregateId,
-        string $eventId = null,
-        string $occurredOn = null
-    ) {
+        string         $eventId = null,
+        string         $occurredOn = null
+    )
+    {
         $this->eventId = $eventId ?: Uuid::generateUuid();
         $this->occurredOn = $occurredOn ?: self::dateToString(new \DateTimeImmutable());
     }
@@ -35,14 +36,14 @@ abstract readonly class DomainEvent
     /**
      * Factory method to create an instance of a DomainEvent from primitive values.
      *
-     * @return static a new instance of a subclass of DomainEvent
+     * @return self a new instance of a subclass of DomainEvent
      */
     abstract public static function fromPrimitives(
         string $aggregateId,
-        array $body,
+        array  $body,
         string $eventId,
         string $occurredOn
-    ): static;
+    ): self;
 
     /**
      * Returns the name of the event.

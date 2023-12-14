@@ -49,15 +49,15 @@ readonly class CreateUserDomainEvent extends DomainEvent
      * @param string $eventId     the event ID
      * @param string $occurredOn  the timestamp when the event occurred
      *
-     * @return static the created domain event instance
+     * @return self the created domain event instance
      */
     public static function fromPrimitives(
         string $aggregateId,
         array $body,
         string $eventId,
         string $occurredOn
-    ): static {
-        return new static($aggregateId, $body['username'], $eventId, $occurredOn);
+    ): self {
+        return new self($aggregateId, $body['username'], $eventId, $occurredOn);
     }
 
     /**

@@ -21,6 +21,7 @@ abstract class ApiResponse
      * @param string $type The type of the response.
      * @param bool $error Indicates whether the response is an error response.
      * @param array $headers
+     *
      * @return JsonResponse
      */
     protected static function apiResponse(

@@ -42,11 +42,7 @@ class InMemorySymfonyEventBus implements EventBus
     public function publish(DomainEvent ...$events): void
     {
         foreach ($events as $event) {
-            try {
-                $this->bus->dispatch($event);
-            } catch (NoHandlerForMessageException) {
-                // TODO catch
-            }
+            $this->bus->dispatch($event);
         }
     }
 }
