@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Common\Infrastructure\Adapter\Response;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 /**
  * Class SuccessResponse
  * This class extends the ApiResponse class and is used to create success responses.
@@ -11,47 +13,41 @@ namespace Common\Infrastructure\Adapter\Response;
  */
 final class SuccessResponse extends ApiResponse
 {
-    public const string DEFAULT_TYPE = 'success';
-    public const string DEFAULT_MESSAGE = 'success_message';
+    const string DEFAULT_TYPE = 'success';
+    const string DEFAULT_MESSAGE = 'success_message';
+    const int HTTP_OK = 200;
+    const int HTTP_CREATED = 201;
+
 
     /**
-     * SuccessResponse constructor.
-     * @param mixed|null $data The data to be returned in the response.
-     * @param int $status The HTTP status code for the response.
-     * @param string $message The message to be included in the response.
-     * @param string $type The type of the response.
+     * Get a standard success response
+     *
+     * @param mixed $data The data to be returned in the response
+     * @param int $status The HTTP status code for the response
+     * @param string $message The message to be included in the response
+     * @param string $type The type of the response
+     * @param array $headers Any additional headers to be added to the response
+     *
+     * @return JsonResponse The success response
      */
-    public function __construct(
-        $data = null,
-        int $status = self::HTTP_OK,
-        string $message = self::DEFAULT_MESSAGE,
-        string $type = self::DEFAULT_TYPE
-    )
+    public static function get(mixed $data = null, int $status = self::HTTP_OK, string $message = self::DEFAULT_MESSAGE, string $type = self::DEFAULT_TYPE, array $headers = []): JsonResponse
     {
-        parent::__construct($data, $status, $message, $type, false);
+        return self::apiResponse($data, $status, $message, $type, false, $headers);
     }
 
     /**
-     * Creates a standard get response.
+     * Create a standard success response for created resources
      *
-     * @param mixed|null $data    The data to be returned in the response.
-     * @param string     $message The message to be included in the response.
-     * @return self Returns an instance of the SuccessResponse class.
-     */
-    public static function get(mixed $data = null, string $message = self::DEFAULT_MESSAGE): self
-    {
-        return new self($data, self::HTTP_OK, $message, self::DEFAULT_TYPE, false);
-    }
-
-    /**
-     * Creates a standard create response.
+     * @param mixed $data The data to be returned in the response
+     * @param int $status The HTTP status code for the response
+     * @param string $message The message to be included in the response
+     * @param string $type The type of the response
+     * @param array $headers Any additional headers to be added to the response
      *
-     * @param mixed|null $data    The data to be returned in the response.
-     * @param string     $message The message to be included in the response.
-     * @return self Returns an instance of the SuccessResponse class.
+     * @return JsonResponse The success response
      */
-    public static function create(mixed $data = null, string $message = 'created'): self
+    public static function create(mixed $data = null, int $status = self::HTTP_CREATED, string $message = self::DEFAULT_MESSAGE, string $type = self::DEFAULT_TYPE, array $headers = []): JsonResponse
     {
-        return new self($data, self::HTTP_CREATED, $message, self::DEFAULT_TYPE, false);
+        return self::apiResponse($data, $status, $message, $type, false, $headers);
     }
 }

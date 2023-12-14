@@ -30,14 +30,25 @@ final readonly class DomainEventJsonDeserializer
     public function deserialize(string $domainEvent): DomainEvent
     {
         $eventData = json_decode($domainEvent, true, 512, JSON_THROW_ON_ERROR);
-        $eventName = $eventData['data']['type'];
-        $eventClass = $this->mapping->for($eventName);
+        if (!is_array($eventData) || !isset($eventData['data'])) {
+            throw new \RuntimeException('Invalid event data format');
+        }
+        $data = $eventData['data'];
+        if (!is_array($data) || !isset($data['type'], $data['attributes'], $data['id'], $data['occurred_on'])) {
+            throw new \RuntimeException('Invalid event data format');
+        }
+        /** @var DomainEvent $eventClass */
+        $eventClass = $this->mapping->for((string)$data['type']);
 
-        return $eventClass::fromPrimitives(
-            $eventData['data']['attributes']['id'],
-            $eventData['data']['attributes'],
-            $eventData['data']['id'],
-            $eventData['data']['occurred_on']
-        );
+        if (is_array($data['attributes'])) {
+            $id = isset($data['attributes']['id']) ? (string)$data['attributes']['id'] : '';
+            $attributes = $data['attributes'];
+            $eventId = $data['id'] ? (string)$data['id'] : '';
+            $occurredOn = $data['occurred_on'] ? (string)$data['occurred_on'] : '';
+
+            return $eventClass::fromPrimitives($id, $attributes, $eventId, $occurredOn);
+        }
+
+        throw new \RuntimeException('Invalid event data format');
     }
 }

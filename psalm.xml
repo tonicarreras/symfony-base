@@ -1,13 +1,20 @@
 <?xml version="1.0"?>
-<psalm
-        errorLevel="1"
+<psalm errorLevel="2"
         phpVersion="8.3"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="https://getpsalm.org/schema/config"
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-        findUnusedBaselineEntry="true"
-        findUnusedCode="true"
+        findUnusedBaselineEntry="false"
+        findUnusedCode="false"
 >
+    <plugins>
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin">
+            <containerXml>var/cache/dev/App_KernelDevDebugContainer.xml</containerXml>
+        </pluginClass>
+    </plugins>
+    <extraFiles>
+        <directory name="var/cache/dev/Symfony/Config" /> <!-- https://github.com/psalm/psalm-plugin-symfony/issues/201 -->
+    </extraFiles>
     <projectFiles>
         <directory name="src"/>
         <ignoreFiles>

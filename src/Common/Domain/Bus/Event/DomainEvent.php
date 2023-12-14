@@ -29,7 +29,7 @@ abstract readonly class DomainEvent
         string $occurredOn = null
     ) {
         $this->eventId = $eventId ?: Uuid::generateUuid();
-        $this->occurredOn = $occurredOn ?: $this->dateToString(new \DateTimeImmutable());
+        $this->occurredOn = $occurredOn ?: self::dateToString(new \DateTimeImmutable());
     }
 
     /**

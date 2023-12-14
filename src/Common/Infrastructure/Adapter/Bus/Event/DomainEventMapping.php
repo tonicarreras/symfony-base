@@ -20,8 +20,8 @@ final class DomainEventMapping
     public function __construct(iterable $mapping)
     {
         $this->mapping = array_reduce(
-            (array) $mapping,
-            fn (array $carry, DomainEventSubscriber $subscriber) => [...$carry, ...$this->mapSubscribersToEventNames($subscriber)],
+            (array)$mapping,
+            fn(array $carry, DomainEventSubscriber $subscriber) => [...$carry, ...$this->mapSubscribersToEventNames($subscriber)],
             []
         );
     }
@@ -39,10 +39,16 @@ final class DomainEventMapping
         $subscriberClass = get_class($subscriber);
 
         return array_combine(
-            array_map(fn (string $eventClass) => $eventClass::eventName(), $eventClasses),
+            array_map(
+                static function (string $eventClass): string {
+                    return (string)$eventClass::eventName();
+                },
+                $eventClasses
+            ),
             array_fill(0, count($eventClasses), $subscriberClass)
         );
     }
+
 
     /**
      * Retrieves the corresponding DomainEventSubscriber class for a given event name.

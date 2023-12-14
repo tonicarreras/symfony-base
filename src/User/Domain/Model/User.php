@@ -40,7 +40,7 @@ class User extends AggregateRoot
      */
     public static function create(string $id, string $username, string $password, array $roles): self
     {
-        if (!in_array('ROLE_USER', $roles)) {
+        if (!in_array('ROLE_USER', $roles, true)) {
             $roles[] = 'ROLE_USER';
         }
         $user = new self($id, $username, $password, $roles);
@@ -86,7 +86,7 @@ class User extends AggregateRoot
     /**
      * Get the user's roles.
      *
-     * @return string[] user's roles
+     * @return array user's roles
      */
     public function getRoles(): array
     {

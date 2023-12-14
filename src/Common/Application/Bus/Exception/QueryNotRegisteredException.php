@@ -3,7 +3,6 @@
 namespace Common\Application\Bus\Exception;
 
 use Common\Domain\Exception\ApiException;
-use Common\Domain\Exception\Constant\ExceptionMessage;
 
 /**
  * The QueryNotRegisteredException class extends the ApiException class.

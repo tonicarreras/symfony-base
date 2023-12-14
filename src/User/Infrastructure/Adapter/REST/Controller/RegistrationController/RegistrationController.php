@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace User\Infrastructure\Adapter\REST\Controller\RegistrationController;
 
+use Common\Domain\Exception\DuplicateValidationResourceException;
 use Common\Domain\Exception\ValidationException;
 use Common\Infrastructure\Adapter\Response\SuccessResponse;
 use Common\Infrastructure\Adapter\REST\Controller\CustomController;
@@ -23,6 +24,7 @@ class RegistrationController extends CustomController
      * Handles the registration request.
      *
      * @throws ValidationException
+     * @throws DuplicateValidationResourceException
      */
     #[Route('/register', name: 'register_user', methods: ['POST'])]
     public function __invoke(
@@ -37,8 +39,8 @@ class RegistrationController extends CustomController
         /** @psalm-suppress PossiblyNullArgument */
         $password = $passwordHasher->hashPassword($requestDTO, $requestDTO->password);
         /** @psalm-suppress PossiblyNullArgument */
-        $this->dispatch(new CreateUserCommand($requestDTO->username, $password, $requestDTO->roles));
+        $response = $handler->__invoke(new CreateUserCommand($requestDTO->username, $password, $requestDTO->roles));
 
-        return SuccessResponse::create();
+        return SuccessResponse::create($response);
     }
 }

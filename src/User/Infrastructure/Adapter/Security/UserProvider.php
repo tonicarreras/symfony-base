@@ -16,6 +16,8 @@ use User\Infrastructure\Adapter\Persistence\ORM\Doctrine\Repository\DoctrineUser
 /**
  * Implements the UserProviderInterface for Symfony security,
  * providing methods to load and refresh User objects.
+ *
+ * @implements UserProviderInterface<UserAdapter>
  */
 readonly class UserProvider implements UserProviderInterface
 {
@@ -34,12 +36,12 @@ readonly class UserProvider implements UserProviderInterface
      *
      * @param string $username the username to search for
      *
-     * @return UserInterface the loaded user
+     * @return UserAdapter the loaded user
      *
      * @throws ResourceNotFoundException if the user is not found
      * @throws ValidationException       if the username is blank
      */
-    public function loadUserByUsername(string $username): UserInterface
+    public function loadUserByUsername(string $username): UserAdapter
     {
         if ($violation = $this->validateNotBlank($username, 'username')) {
             throw new ValidationException($violation);
@@ -58,12 +60,12 @@ readonly class UserProvider implements UserProviderInterface
      *
      * @param UserInterface $user the user to refresh
      *
-     * @return UserInterface the refreshed user
+     * @return UserAdapter the refreshed user
      *
      * @throws UnsupportedUserException                      if the account is not supported
      * @throws ResourceNotFoundException|ValidationException if the user is not found
      */
-    public function refreshUser(UserInterface $user): UserInterface
+    public function refreshUser(UserInterface $user): UserAdapter
     {
         if (!$user instanceof UserAdapter) {
             throw new UnsupportedUserException(ExceptionMessage::NOT_SUPPORTED);
@@ -91,12 +93,12 @@ readonly class UserProvider implements UserProviderInterface
      *
      * @param string $identifier the user identifier
      *
-     * @return UserInterface the loaded user
+     * @return UserAdapter the loaded user
      *
      * @throws ResourceNotFoundException if the user is not found
      * @throws ValidationException       if the identifier is blank
      */
-    public function loadUserByIdentifier(string $identifier): UserInterface
+    public function loadUserByIdentifier(string $identifier): UserAdapter
     {
         return $this->loadUserByUsername($identifier);
     }

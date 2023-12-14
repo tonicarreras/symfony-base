@@ -10,16 +10,15 @@ use Common\Domain\Exception\Constant\ExceptionType;
 use Common\Domain\Exception\ValidationException;
 use Common\Domain\Logger\Logger;
 use Common\Infrastructure\Adapter\Response\ErrorResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 
-class JsonExceptionListener
+final readonly class JsonExceptionListener
 {
-
     public function __construct(
         private Logger $logger
-    )
-    {
+    ){
     }
 
     /**
@@ -40,14 +39,14 @@ class JsonExceptionListener
      *
      * @param \Throwable $exception the caught exception
      *
-     * @return ErrorResponse the JSON response to be returned
+     * @return JsonResponse the JSON response to be returned
      */
-    private function createJsonResponse(\Throwable $exception): ErrorResponse
+    private function createJsonResponse(\Throwable $exception): JsonResponse
     {
         $statusCode = $exception instanceof ApiException ? $exception->getCode() : 500;
         $message = $this->getErrorMessage($exception, $statusCode);
 
-        return new ErrorResponse(
+        return ErrorResponse::response(
             $this->getErrorData($exception),
             $statusCode,
             $message,
@@ -92,7 +91,9 @@ class JsonExceptionListener
      */
     private function getErrorType(\Throwable $exception): string
     {
-        if ($exception instanceof ApiException) return $exception->getType();
+        if ($exception instanceof ApiException) {
+            return $exception->getType();
+        }
         return ExceptionType::EXCEPTION;
     }
 }

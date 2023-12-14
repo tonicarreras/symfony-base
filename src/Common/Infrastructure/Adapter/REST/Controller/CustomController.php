@@ -8,6 +8,7 @@ use Common\Application\Bus\Query\Query;
 use Common\Application\Bus\Query\QueryBus;
 use Common\Application\Bus\Query\QueryResponse;
 use Common\Application\Mediator\CommandQueryMediator;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * The CustomController class extends the AbstractController class provided by Symfony.

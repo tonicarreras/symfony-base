@@ -11,31 +11,32 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  * This abstract class extends the JsonResponse class from Symfony and is used to create API responses.
  * It provides a constructor to format the data to be returned in the response.
  */
-abstract class ApiResponse extends JsonResponse
+abstract class ApiResponse
 {
-
     /**
-     * ApiResponse constructor.
-     * @param mixed|null $data The data to be returned in the response.
+     * Get the JSON response.
+     * @param mixed $data The data to be returned in the response.
      * @param int $status The HTTP status code for the response.
      * @param string $message The message to be included in the response.
      * @param string $type The type of the response.
      * @param bool $error Indicates whether the response is an error response.
+     * @param array $headers
+     * @return JsonResponse
      */
-    public function __construct(
-        $data,
-        int $status,
+    protected static function apiResponse(
+        mixed  $data,
+        int    $status,
         string $message,
         string $type,
-        bool $error
-    )
+        bool   $error,
+        array  $headers
+    ): JsonResponse
     {
-        $formattedData = [
+        return new JsonResponse([
             'error' => $error,
             'type' => $type,
             'message' => $message,
             'data' => $data,
-        ];
-        parent::__construct($formattedData, $status);
+        ], $status, $headers);
     }
 }
