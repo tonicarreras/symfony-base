@@ -75,18 +75,22 @@ final readonly class JsonExceptionListener
 
     /**
      * Determines the status code to be used in the response.
+     *
+     * @return int the status code
      */
     private function getStatusCode(\Throwable $exception): int
     {
-        return match (true) {
+        if ($this->isAllowedException($exception)) {
             // For Symfony HttpExceptionInterface, use getStatusCode() if it's enabled.
-            $exception instanceof HttpExceptionInterface && $this->isAllowedException($exception) => $exception->getStatusCode(),
+            if ($exception instanceof HttpExceptionInterface) {
+                return $exception->getStatusCode();
+            }
 
             // For allowed exceptions, use getCode() if it's enabled.
-            $this->isAllowedException($exception) => $exception->getCode(),
+            return (int) $exception->getCode();
+        }
 
-            default => ExceptionStatusCode::INTERNAL_ERROR
-        };
+        return ExceptionStatusCode::INTERNAL_ERROR;
     }
 
     /**
@@ -129,7 +133,9 @@ final readonly class JsonExceptionListener
     private function logException(JsonResponse $response, \Throwable $exception): void
     {
         if (ExceptionStatusCode::INTERNAL_ERROR === $response->getStatusCode()) {
-            $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTrace()]);
+            $this->logger->critical(
+                $exception->getMessage(), ['exception' => $exception->getTrace()]
+            );
         }
     }
 

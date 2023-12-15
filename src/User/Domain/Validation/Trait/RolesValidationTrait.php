@@ -26,7 +26,7 @@ trait RolesValidationTrait
         $allowedRoles = AllowedRoles::getRoles();
 
         foreach ($roles as $role) {
-            if (!in_array($role, $allowedRoles)) {
+            if (!in_array($role, $allowedRoles, true)) {
                 $errors[] = ValidationErrorFormatter::format(
                     'roles',
                     ConstraintType::INVALID,
@@ -50,6 +50,6 @@ trait RolesValidationTrait
         static $allowedRoles = null;
         $allowedRoles = $allowedRoles ?? AllowedRoles::getRoles();
 
-        return in_array($role, $allowedRoles);
+        return in_array($role, $allowedRoles, true);
     }
 }

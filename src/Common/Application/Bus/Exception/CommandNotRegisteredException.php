@@ -21,6 +21,6 @@ final class CommandNotRegisteredException extends ApiException
      */
     public function __construct()
     {
-        parent::__construct(self::STATUS_CODE, self::COMMAND_NOT_REGISTERED);
+        parent::__construct(self::COMMAND_NOT_REGISTERED, self::STATUS_CODE);
     }
 }

@@ -21,6 +21,6 @@ final class QueryNotRegisteredException extends ApiException
      */
     public function __construct()
     {
-        parent::__construct(self::STATUS_CODE, self::QUERY_NOT_REGISTERED);
+        parent::__construct(self::QUERY_NOT_REGISTERED, self::STATUS_CODE);
     }
 }

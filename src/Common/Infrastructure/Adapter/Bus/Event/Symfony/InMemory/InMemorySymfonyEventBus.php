@@ -28,8 +28,15 @@ class InMemorySymfonyEventBus implements EventBus
     public function __construct(iterable $subscribers)
     {
         // Extracts the handlers for the subscribers and initializes the MessageBus.
-        $handlers = CallableFirstParameterExtractor::forCallables($subscribers);
-        $this->bus = new MessageBus([new HandleMessageMiddleware(new HandlersLocator($handlers))]);
+        $this->bus = new MessageBus(
+            [
+                new HandleMessageMiddleware(
+                    new HandlersLocator(
+                        CallableFirstParameterExtractor::forCallables($subscribers)
+                    )
+                ),
+            ]
+        );
     }
 
     /**
