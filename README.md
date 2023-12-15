@@ -29,6 +29,17 @@ git clone https://github.com/tonicarreras/symfony-base.git
 # Build and run Docker containers
 make install
 ``` 
+- **JWT PEM**
+
+```shell
+## Recommended: With passphrase
+make jwt-pp-config
+```
+
+```shell
+# Without passphrase
+make jwt-config
+```
 
 - **Terminal**
 
@@ -75,6 +86,21 @@ composer install
 You will need to configure the database connection by modifying the DATABASE_URL in the .env file to match your MySQL settings.
 ```shell
 php bin/console doctrine:migrations:migrate
+```
+
+- JWT PEM
+```shell
+## Recommended: With passphrase
+mkdir -p config/jwt
+openssl genrsa -out config/jwt/private.pem -aes256 4096
+openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
+```
+
+```shell
+# Without passphrase
+mkdir -p config/jwt
+openssl genrsa -out config/jwt/private.pem 4096
+openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
 ```
 
 - Start Symfony Server:

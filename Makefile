@@ -18,6 +18,16 @@ make-migration: ## Create migration
 migrations-migrate: ## Run migrations
 	docker exec --user ${UID} ${PHP_CONTAINER} php bin/console doctrine:migrations:migrate --no-interaction
 
+jwt-config: ## Generate jwt keys
+	docker exec --user ${UID} ${PHP_CONTAINER} mkdir -p config/jwt
+	docker exec --user ${UID} ${PHP_CONTAINER} openssl genrsa -out config/jwt/private.pem 4096
+	docker exec --user ${UID} ${PHP_CONTAINER} openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
+
+jwt-pp-config: ## Generate jwt keys (passphrase)
+	docker exec --user ${UID} ${PHP_CONTAINER} mkdir -p config/jwt
+	docker exec -it --user ${UID} ${PHP_CONTAINER} openssl genrsa -out config/jwt/private.pem -aes256 4096
+	docker exec -it --user ${UID} ${PHP_CONTAINER} openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
+
 start: ## Start the containers
 	U_ID=${UID} docker-compose up -d
 

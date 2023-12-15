@@ -22,7 +22,7 @@ class GetUserByIdController extends CustomController
      * @return JsonResponse the response in JSON format
      * @throws ResourceNotFoundException
      */
-    #[Route('/api/user/get/{id}', name: 'get_user_by_id', methods: ['GET'])]
+    #[Route('/user/get/{id}', name: 'get_user_by_id', methods: ['GET'])]
     public function __invoke(string $id, GetUserByIdQueryHandler $handler): JsonResponse
     {
         $response = $handler->__invoke(new GetUserByIdQuery($id));
