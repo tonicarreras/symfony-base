@@ -12,13 +12,17 @@ use Common\Domain\Logger\Logger;
 use Common\Infrastructure\Adapter\Response\ErrorResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 
 final readonly class JsonExceptionListener
 {
+    const int INTERNAL_ERROR_CODE = 500;
+
     public function __construct(
         private Logger $logger
-    ){
+    )
+    {
     }
 
     /**
@@ -30,8 +34,8 @@ final readonly class JsonExceptionListener
     {
         $exception = $event->getThrowable();
         $response = $this->createJsonResponse($exception);
+        $this->logException($response, $exception);
         $event->setResponse($response);
-        $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTrace()]);
     }
 
     /**
@@ -43,13 +47,11 @@ final readonly class JsonExceptionListener
      */
     private function createJsonResponse(\Throwable $exception): JsonResponse
     {
-        $statusCode = $exception instanceof ApiException ? $exception->getCode() : 500;
-        $message = $this->getErrorMessage($exception, $statusCode);
-
+        $statusCode = $this->getStatusCode($exception);
         return ErrorResponse::response(
             $this->getErrorData($exception),
             $statusCode,
-            $message,
+            $this->getErrorMessage($exception, $statusCode),
             $this->getErrorType($exception)
         );
     }
@@ -66,6 +68,18 @@ final readonly class JsonExceptionListener
         return $exception instanceof ValidationException ? $exception->getViolations() : null;
     }
 
+    private function getStatusCode(\Throwable $exception): int
+    {
+        return match (true) {
+            // For Symfony HttpExceptionInterface, get the status code from the exception.
+            $exception instanceof HttpExceptionInterface =>
+            $exception->getStatusCode(),
+            $exception instanceof ApiException =>
+            $exception->getCode(),
+            default => self::INTERNAL_ERROR_CODE
+        };
+    }
+
     /**
      * Generates an appropriate error message or throws a ValidationException.
      *
@@ -76,10 +90,9 @@ final readonly class JsonExceptionListener
      */
     private function getErrorMessage(\Throwable $exception, int $statusCode): string
     {
-        if (500 === $statusCode) {
+        if (self::INTERNAL_ERROR_CODE === $statusCode) {
             return ExceptionMessage::INTERNAL;
         }
-
         return $exception->getMessage();
     }
 
@@ -95,5 +108,19 @@ final readonly class JsonExceptionListener
             return $exception->getType();
         }
         return ExceptionType::EXCEPTION;
+    }
+
+    /**
+     * Logs the exception if the response status code is an internal error.
+     *
+     * @param JsonResponse $response the response object
+     * @param \Throwable $exception the caught exception
+     * @return void
+     */
+    private function logException(JsonResponse $response, \Throwable $exception): void
+    {
+        if (self::INTERNAL_ERROR_CODE === $response->getStatusCode()) {
+            $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTrace()]);
+        }
     }
 }
