@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Common\Domain\Exception;
 
+use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Common\Domain\Exception\Constant\ExceptionMessage;
 
 /**
@@ -16,7 +17,6 @@ use Common\Domain\Exception\Constant\ExceptionMessage;
  */
 final class DuplicateValidationResourceException extends ApiException
 {
-    public const int STATUS_CODE = 409;
 
     /**
      * Constructor for the DuplicateValidationResourceException class.
@@ -27,6 +27,6 @@ final class DuplicateValidationResourceException extends ApiException
      */
     public function __construct()
     {
-        parent::__construct(self::STATUS_CODE, ExceptionMessage::DUPLICATE);
+        parent::__construct( ExceptionMessage::DUPLICATE,ExceptionStatusCode::DUPLICATE);
     }
 }

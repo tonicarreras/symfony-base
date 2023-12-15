@@ -12,6 +12,10 @@ services:
     tags:
       - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
+  Common\Infrastructure\Adapter\Listener\RequestListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
   # Monolog
   Monolog\Logger:
     arguments:

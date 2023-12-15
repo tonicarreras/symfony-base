@@ -34,8 +34,8 @@ class ApiException extends \Exception
      * @param string $type       the type of the exception, defaults to a general exception type
      */
     public function __construct(
-        int $statusCode = 500,
         string $message = ExceptionMessage::INTERNAL,
+        int $statusCode = 500,
         string $type = ExceptionType::EXCEPTION
     ) {
         $this->type = $type;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Common\Infrastructure\Adapter\Response;
 
+use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -16,7 +17,6 @@ final class ErrorResponse extends ApiResponse
 {
     const string DEFAULT_TYPE = 'error';
     const string DEFAULT_MESSAGE = 'error_message';
-    const int HTTP_INTERNAL_SERVER_ERROR = 500;
 
     /**
      * Get the JSON response for an error.
@@ -29,7 +29,7 @@ final class ErrorResponse extends ApiResponse
      */
     public static function response(
         mixed  $data = null,
-        int    $status = self::HTTP_INTERNAL_SERVER_ERROR,
+        int    $status = ExceptionStatusCode::INTERNAL_ERROR,
         string $message = self::DEFAULT_MESSAGE,
         string $type = self::DEFAULT_TYPE,
         array  $headers = []

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Common\Domain\Exception;
 
+use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Common\Domain\Exception\Constant\ExceptionMessage;
 
 /**
@@ -15,7 +16,6 @@ use Common\Domain\Exception\Constant\ExceptionMessage;
  */
 final class ResourceNotFoundException extends ApiException
 {
-    public const int STATUS_CODE = 404;
 
     /**
      * Constructor for the ResourceNotFoundException class.
@@ -26,6 +26,6 @@ final class ResourceNotFoundException extends ApiException
      */
     public function __construct()
     {
-        parent::__construct(self::STATUS_CODE, ExceptionMessage::NOT_FOUND);
+        parent::__construct( ExceptionMessage::NOT_FOUND,ExceptionStatusCode::NOT_FOUND);
     }
 }

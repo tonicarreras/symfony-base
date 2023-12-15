@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Common\Domain\Exception;
 
+use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Common\Domain\Exception\Constant\ExceptionMessage;
 use Common\Domain\Exception\Constant\ExceptionType;
 
@@ -29,7 +30,7 @@ class ValidationException extends ApiException
      */
     public function __construct(array $violations)
     {
-        parent::__construct(422, ExceptionMessage::VALIDATION, ExceptionType::VALIDATION);
+        parent::__construct( ExceptionMessage::VALIDATION,ExceptionStatusCode::VALIDATION_ERROR, ExceptionType::VALIDATION);
         $this->violations = $violations;
     }
 

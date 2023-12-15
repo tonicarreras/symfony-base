@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Common\Infrastructure\Adapter\Listener;
 
+use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Common\Domain\Exception\ApiException;
 use Common\Domain\Exception\Constant\ExceptionMessage;
 use Common\Domain\Exception\Constant\ExceptionType;
@@ -17,7 +18,12 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 final readonly class JsonExceptionListener
 {
-    const int INTERNAL_ERROR_CODE = 500;
+    // Array of exceptions that are allowed to be thrown by the application.
+    const array CUSTOM_EXCEPTIONS_FOR_USER = [
+        HttpExceptionInterface::class, // \Symfony
+        ApiException::class // \Exception
+        //(...)
+    ];
 
     public function __construct(
         private Logger $logger
@@ -68,15 +74,23 @@ final readonly class JsonExceptionListener
         return $exception instanceof ValidationException ? $exception->getViolations() : null;
     }
 
+    /**
+     * Determines the status code to be used in the response.
+     * @param \Throwable $exception
+     * @return int
+     */
     private function getStatusCode(\Throwable $exception): int
     {
         return match (true) {
-            // For Symfony HttpExceptionInterface, get the status code from the exception.
-            $exception instanceof HttpExceptionInterface =>
+            // For Symfony HttpExceptionInterface, use getStatusCode() if it's enabled.
+            $exception instanceof HttpExceptionInterface && $this->isAllowedException($exception) =>
             $exception->getStatusCode(),
-            $exception instanceof ApiException =>
+
+            // For allowed exceptions, use getCode() if it's enabled.
+            $this->isAllowedException($exception) =>
             $exception->getCode(),
-            default => self::INTERNAL_ERROR_CODE
+
+            default => ExceptionStatusCode::INTERNAL_ERROR
         };
     }
 
@@ -90,7 +104,7 @@ final readonly class JsonExceptionListener
      */
     private function getErrorMessage(\Throwable $exception, int $statusCode): string
     {
-        if (self::INTERNAL_ERROR_CODE === $statusCode) {
+        if (ExceptionStatusCode::INTERNAL_ERROR === $statusCode) {
             return ExceptionMessage::INTERNAL;
         }
         return $exception->getMessage();
@@ -119,8 +133,24 @@ final readonly class JsonExceptionListener
      */
     private function logException(JsonResponse $response, \Throwable $exception): void
     {
-        if (self::INTERNAL_ERROR_CODE === $response->getStatusCode()) {
+        if (ExceptionStatusCode::INTERNAL_ERROR === $response->getStatusCode()) {
             $this->logger->critical($exception->getMessage(), ['exception' => $exception->getTrace()]);
         }
+    }
+
+    /**
+     * Determines if the given exception is allowed or not based on custom exceptions defined for users.
+     *
+     * @param \Throwable $exception the caught exception
+     * @return bool true if the exception is allowed, false otherwise
+     */
+    private function isAllowedException(\Throwable $exception): bool
+    {
+        foreach (self::CUSTOM_EXCEPTIONS_FOR_USER as $allowedException) {
+            if ($exception instanceof $allowedException) {
+                return true;
+            }
+        }
+        return false;
     }
 }
