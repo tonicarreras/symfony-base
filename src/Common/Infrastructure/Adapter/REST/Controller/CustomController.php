@@ -21,21 +21,21 @@ class CustomController implements CommandQueryMediator
     /**
      * The constructor initializes the CustomController with a QueryBus and a CommandBus.
      *
-     * @param QueryBus $queryBus The QueryBus to be used for dispatching queries.
-     * @param CommandBus $commandBus The CommandBus to be used for dispatching commands.
+     * @param QueryBus   $queryBus   the QueryBus to be used for dispatching queries
+     * @param CommandBus $commandBus the CommandBus to be used for dispatching commands
      */
     public function __construct(
-        private readonly QueryBus   $queryBus,
+        private readonly QueryBus $queryBus,
         private readonly CommandBus $commandBus
-    )
-    {
+    ) {
     }
 
     /**
      * The ask method dispatches a query using the QueryBus and returns the response.
      *
-     * @param Query $query The query to be dispatched.
-     * @return QueryResponse The response of the query execution.
+     * @param Query $query the query to be dispatched
+     *
+     * @return QueryResponse the response of the query execution
      */
     public function ask(Query $query): QueryResponse
     {
@@ -46,8 +46,7 @@ class CustomController implements CommandQueryMediator
      * The dispatch method dispatches a command using the CommandBus.
      * The method does not return a value.
      *
-     * @param Command $command The command to be dispatched.
-     * @return void
+     * @param Command $command the command to be dispatched
      */
     public function dispatch(Command $command): void
     {

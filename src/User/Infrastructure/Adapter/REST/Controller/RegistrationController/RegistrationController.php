@@ -17,7 +17,6 @@ use User\Application\Command\CreateUser\CreateUserCommandHandler;
 use User\Domain\Validation\CreateUserValidator;
 use User\Infrastructure\Adapter\REST\Controller\RegistrationController\DTO\RegistrationRequestDto;
 
-
 class RegistrationController extends CustomController
 {
     /**
@@ -29,13 +28,13 @@ class RegistrationController extends CustomController
     #[Route('/register', name: 'register_user', methods: ['POST'])]
     public function __invoke(
         #[MapRequestPayload] RegistrationRequestDto $requestDTO,
-        CreateUserCommandHandler                    $handler,
-        CreateUserValidator                         $validator,
-        UserPasswordHasherInterface                 $passwordHasher): JsonResponse
+        CreateUserCommandHandler $handler,
+        CreateUserValidator $validator,
+        UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         $validator->validateAndThrows($requestDTO);
 
-        //PossiblyNullArgument is suppressed because the $requestDTO is validated in the CreateUserValidator
+        // PossiblyNullArgument is suppressed because the $requestDTO is validated in the CreateUserValidator
         /** @psalm-suppress PossiblyNullArgument */
         $password = $passwordHasher->hashPassword($requestDTO, $requestDTO->password);
         /** @psalm-suppress PossiblyNullArgument */

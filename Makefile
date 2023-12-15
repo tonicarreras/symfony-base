@@ -57,3 +57,6 @@ phpunit: ## Run phpunit
 
 psalm: ## Run psalm
 	docker exec --user ${UID} ${PHP_CONTAINER} php ./vendor/bin/psalm
+
+phpcsfixer: ## Run php-cs-fixer
+	docker exec --user ${UID} ${PHP_CONTAINER} php ./vendor/bin/php-cs-fixer fix

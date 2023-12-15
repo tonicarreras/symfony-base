@@ -10,4 +10,6 @@ namespace Common\Application\Bus\Query;
  * Query responses are DTOs (Data Transfer Objects) that carry the result of a query execution.
  * Each query handler should return a QueryResponse.
  */
-interface QueryResponse {}
+interface QueryResponse
+{
+}

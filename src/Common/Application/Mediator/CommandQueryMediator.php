@@ -17,8 +17,9 @@ interface CommandQueryMediator
     /**
      * Dispatches the given query and returns its response.
      *
-     * @param Query $query The query to be dispatched.
-     * @return QueryResponse The response of the query execution.
+     * @param Query $query the query to be dispatched
+     *
+     * @return QueryResponse the response of the query execution
      */
     public function ask(Query $query): QueryResponse;
 
@@ -26,8 +27,7 @@ interface CommandQueryMediator
      * Dispatches the given command.
      * The method does not return a value.
      *
-     * @param Command $command The command to be dispatched.
-     * @return void
+     * @param Command $command the command to be dispatched
      */
     public function dispatch(Command $command): void;
 }

@@ -10,4 +10,6 @@ namespace Common\Application\Bus\Command;
  * It does not define any methods, and serves as a marker interface.
  * Each command should have exactly one corresponding command handler.
  */
-interface CommandHandler {}
+interface CommandHandler
+{
+}

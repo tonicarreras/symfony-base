@@ -10,4 +10,6 @@ namespace Common\Application\Bus\Command;
  * Command responses are DTOs (Data Transfer Objects) that carry the result of a command execution.
  * Each command handler should return a CommandResponse.
  */
-interface CommandResponse {}
+interface CommandResponse
+{
+}

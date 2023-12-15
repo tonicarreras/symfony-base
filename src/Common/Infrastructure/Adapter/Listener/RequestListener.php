@@ -13,19 +13,18 @@ final class RequestListener
 {
     private const string ALLOWED_CONTENT_TYPE = 'application/json';
 
-
     /**
      * Validates the content type of the incoming request.
      *
-     * @param Request $request The incoming HTTP request.
+     * @param Request $request the incoming HTTP request
      *
-     * @throws BadRequestException If the content type is not allowed.
+     * @throws BadRequestException if the content type is not allowed
      */
     private function validateContentType(Request $request): void
     {
         $contentType = $request->headers->get('Content-Type');
 
-        if ($contentType !== self::ALLOWED_CONTENT_TYPE) {
+        if (self::ALLOWED_CONTENT_TYPE !== $contentType) {
             throw new BadRequestException('Invalid Content-Type. Only application/json is allowed.', ExceptionStatusCode::INVALID_ARGUMENT);
         }
         if (empty($request->getContent()) && $this->isContentMethod($request->getMethod())) {
@@ -43,11 +42,10 @@ final class RequestListener
         return \in_array($method, [Request::METHOD_POST, Request::METHOD_PUT, Request::METHOD_PATCH], true);
     }
 
-
     /**
      * Handles the onKernelRequest event.
      *
-     * @param RequestEvent $event The event triggered on each request.
+     * @param RequestEvent $event the event triggered on each request
      */
     public function onKernelRequest(RequestEvent $event): void
     {

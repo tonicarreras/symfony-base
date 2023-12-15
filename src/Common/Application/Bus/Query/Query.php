@@ -10,4 +10,6 @@ namespace Common\Application\Bus\Query;
  * Queries are DTOs (Data Transfer Objects) that carry the intent of the user to retrieve something from the system.
  * Each query should be handled by exactly one query handler.
  */
-interface Query {}
+interface Query
+{
+}

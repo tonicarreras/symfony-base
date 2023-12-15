@@ -22,7 +22,7 @@ final readonly class UserCreator
      * @param EventBus       $bus            event bus for domain events
      */
     public function __construct(
-        private UserRepository    $userRepository,
+        private UserRepository $userRepository,
         private EventBus $bus
     ) {
     }

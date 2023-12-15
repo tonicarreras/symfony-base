@@ -10,4 +10,6 @@ namespace Common\Application\Bus\Query;
  * It does not define any methods, and serves as a marker interface.
  * Each query should have exactly one corresponding query handler.
  */
-interface QueryHandler {}
+interface QueryHandler
+{
+}

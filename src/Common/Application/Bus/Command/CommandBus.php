@@ -16,8 +16,7 @@ interface CommandBus
      * Dispatches the given command to its appropriate handler.
      * The method does not return a value.
      *
-     * @param Command $command The command to be dispatched.
-     * @return void
+     * @param Command $command the command to be dispatched
      */
     public function dispatch(Command $command): void;
 }

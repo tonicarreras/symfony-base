@@ -15,7 +15,6 @@ final class CommandNotRegisteredException extends ApiException
     public const int STATUS_CODE = 409;
     public const string COMMAND_NOT_REGISTERED = 'command_handler_not_registered';
 
-
     /**
      * The constructor initializes the CommandNotRegisteredException with a status code and an error message.
      * The status code is set to self::STATUS_CODE, and the error message is set to ExceptionMessage::DUPLICATE.

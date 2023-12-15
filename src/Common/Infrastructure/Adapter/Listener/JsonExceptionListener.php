@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Common\Infrastructure\Adapter\Listener;
 
-use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Common\Domain\Exception\ApiException;
 use Common\Domain\Exception\Constant\ExceptionMessage;
+use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Common\Domain\Exception\Constant\ExceptionType;
 use Common\Domain\Exception\ValidationException;
 use Common\Domain\Logger\Logger;
@@ -15,20 +15,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-
 final readonly class JsonExceptionListener
 {
     // Array of exceptions that are allowed to be thrown by the application.
-    const array CUSTOM_EXCEPTIONS_FOR_USER = [
+    public const array CUSTOM_EXCEPTIONS_FOR_USER = [
         HttpExceptionInterface::class, // \Symfony
-        ApiException::class // \Exception
-        //(...)
+        ApiException::class, // \Exception
+        // (...)
     ];
 
     public function __construct(
         private Logger $logger
-    )
-    {
+    ) {
     }
 
     /**
@@ -54,6 +52,7 @@ final readonly class JsonExceptionListener
     private function createJsonResponse(\Throwable $exception): JsonResponse
     {
         $statusCode = $this->getStatusCode($exception);
+
         return ErrorResponse::response(
             $this->getErrorData($exception),
             $statusCode,
@@ -76,19 +75,15 @@ final readonly class JsonExceptionListener
 
     /**
      * Determines the status code to be used in the response.
-     * @param \Throwable $exception
-     * @return int
      */
     private function getStatusCode(\Throwable $exception): int
     {
         return match (true) {
             // For Symfony HttpExceptionInterface, use getStatusCode() if it's enabled.
-            $exception instanceof HttpExceptionInterface && $this->isAllowedException($exception) =>
-            $exception->getStatusCode(),
+            $exception instanceof HttpExceptionInterface && $this->isAllowedException($exception) => $exception->getStatusCode(),
 
             // For allowed exceptions, use getCode() if it's enabled.
-            $this->isAllowedException($exception) =>
-            $exception->getCode(),
+            $this->isAllowedException($exception) => $exception->getCode(),
 
             default => ExceptionStatusCode::INTERNAL_ERROR
         };
@@ -97,8 +92,8 @@ final readonly class JsonExceptionListener
     /**
      * Generates an appropriate error message or throws a ValidationException.
      *
-     * @param \Throwable $exception the caught exception
-     * @param int $statusCode the HTTP status code
+     * @param \Throwable $exception  the caught exception
+     * @param int        $statusCode the HTTP status code
      *
      * @return string the error message
      */
@@ -107,6 +102,7 @@ final readonly class JsonExceptionListener
         if (ExceptionStatusCode::INTERNAL_ERROR === $statusCode) {
             return ExceptionMessage::INTERNAL;
         }
+
         return $exception->getMessage();
     }
 
@@ -114,22 +110,21 @@ final readonly class JsonExceptionListener
      * Determines the type of error based on the exception.
      *
      * @param \Throwable $exception the caught exception
-     * @return string
      */
     private function getErrorType(\Throwable $exception): string
     {
         if ($exception instanceof ApiException) {
             return $exception->getType();
         }
+
         return ExceptionType::EXCEPTION;
     }
 
     /**
      * Logs the exception if the response status code is an internal error.
      *
-     * @param JsonResponse $response the response object
-     * @param \Throwable $exception the caught exception
-     * @return void
+     * @param JsonResponse $response  the response object
+     * @param \Throwable   $exception the caught exception
      */
     private function logException(JsonResponse $response, \Throwable $exception): void
     {
@@ -142,6 +137,7 @@ final readonly class JsonExceptionListener
      * Determines if the given exception is allowed or not based on custom exceptions defined for users.
      *
      * @param \Throwable $exception the caught exception
+     *
      * @return bool true if the exception is allowed, false otherwise
      */
     private function isAllowedException(\Throwable $exception): bool
@@ -151,6 +147,7 @@ final readonly class JsonExceptionListener
                 return true;
             }
         }
+
         return false;
     }
 }

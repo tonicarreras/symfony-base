@@ -10,4 +10,6 @@ namespace Common\Application\Bus\Command;
  * Commands are DTOs (Data Transfer Objects) that carry the intent of the user to change something in the system.
  * Each command should be handled by exactly one command handler.
  */
-interface Command {}
+interface Command
+{
+}

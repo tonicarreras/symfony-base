@@ -24,7 +24,7 @@ class HomeController extends AbstractController
      * It also creates a new DateTimeImmutable object to get the current time.
      * All this information is returned as a JsonResponse.
      *
-     * @return JsonResponse A JsonResponse containing information about the project and the current time.
+     * @return JsonResponse a JsonResponse containing information about the project and the current time
      */
     #[Route('/', name: 'home', methods: ['GET'])]
     public function __invoke(): JsonResponse
@@ -40,7 +40,7 @@ class HomeController extends AbstractController
             'project_version' => $package['version'],
             'symfony_version' => $symfonyVersion,
             'php_version' => PHP_VERSION,
-            'currentTime' => $currentTime->format('Y-m-d H:i:s')
+            'currentTime' => $currentTime->format('Y-m-d H:i:s'),
         ]);
     }
 }

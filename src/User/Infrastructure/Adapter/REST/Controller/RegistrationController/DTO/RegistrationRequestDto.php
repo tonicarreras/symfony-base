@@ -14,9 +14,8 @@ readonly class RegistrationRequestDto implements PasswordAuthenticatedUserInterf
     public function __construct(
         public ?string $username,
         public ?string $password,
-        public ?array  $roles
-    )
-    {
+        public ?array $roles
+    ) {
     }
 
     /**
@@ -28,5 +27,4 @@ readonly class RegistrationRequestDto implements PasswordAuthenticatedUserInterf
     {
         return $this->password;
     }
-
 }

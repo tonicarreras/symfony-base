@@ -13,20 +13,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 final class SuccessResponse extends ApiResponse
 {
-    const string DEFAULT_TYPE = 'success';
-    const string DEFAULT_MESSAGE = 'success_message';
-    const int HTTP_OK = 200;
-    const int HTTP_CREATED = 201;
-
+    public const string DEFAULT_TYPE = 'success';
+    public const string DEFAULT_MESSAGE = 'success_message';
+    public const int HTTP_OK = 200;
+    public const int HTTP_CREATED = 201;
 
     /**
-     * Get a standard success response
+     * Get a standard success response.
      *
-     * @param mixed $data The data to be returned in the response
-     * @param int $status The HTTP status code for the response
+     * @param mixed  $data    The data to be returned in the response
+     * @param int    $status  The HTTP status code for the response
      * @param string $message The message to be included in the response
-     * @param string $type The type of the response
-     * @param array $headers Any additional headers to be added to the response
+     * @param string $type    The type of the response
+     * @param array  $headers Any additional headers to be added to the response
      *
      * @return JsonResponse The success response
      */
@@ -36,13 +35,13 @@ final class SuccessResponse extends ApiResponse
     }
 
     /**
-     * Create a standard success response for created resources
+     * Create a standard success response for created resources.
      *
-     * @param mixed $data The data to be returned in the response
-     * @param int $status The HTTP status code for the response
+     * @param mixed  $data    The data to be returned in the response
+     * @param int    $status  The HTTP status code for the response
      * @param string $message The message to be included in the response
-     * @param string $type The type of the response
-     * @param array $headers Any additional headers to be added to the response
+     * @param string $type    The type of the response
+     * @param array  $headers Any additional headers to be added to the response
      *
      * @return JsonResponse The success response
      */

@@ -28,6 +28,7 @@ trait StringUtil
         if (ctype_lower($text)) {
             return $text;
         }
+
         return strtolower(preg_replace('/([^A-Z\s])([A-Z])/', '$1_$2', $text));
     }
 }

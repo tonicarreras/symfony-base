@@ -20,12 +20,14 @@ class GetUserByIdController extends CustomController
      * @param string $id the Uuid of the user
      *
      * @return JsonResponse the response in JSON format
+     *
      * @throws ResourceNotFoundException
      */
     #[Route('/user/get/{id}', name: 'get_user_by_id', methods: ['GET'])]
     public function __invoke(string $id, GetUserByIdQueryHandler $handler): JsonResponse
     {
         $response = $handler->__invoke(new GetUserByIdQuery($id));
+
         return SuccessResponse::get($response);
     }
 }

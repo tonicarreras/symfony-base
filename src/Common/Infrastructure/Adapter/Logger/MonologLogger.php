@@ -13,16 +13,18 @@ final readonly class MonologLogger implements Logger
 {
     /**
      * MonologLogger constructor.
-     * @param \Monolog\Logger $logger The Monolog logger instance.
+     *
+     * @param \Monolog\Logger $logger the Monolog logger instance
      */
-    public function __construct(private \Monolog\Logger $logger) {}
+    public function __construct(private \Monolog\Logger $logger)
+    {
+    }
 
     /**
      * Logs an informational message using the Monolog logger.
      *
-     * @param string $message The message to be logged.
-     * @param array $context The context in which the message is being logged.
-     * @return void
+     * @param string $message the message to be logged
+     * @param array  $context the context in which the message is being logged
      */
     public function info(string $message, array $context = []): void
     {
@@ -32,9 +34,8 @@ final readonly class MonologLogger implements Logger
     /**
      * Logs a warning message using the Monolog logger.
      *
-     * @param string $message The message to be logged.
-     * @param array $context The context in which the message is being logged.
-     * @return void
+     * @param string $message the message to be logged
+     * @param array  $context the context in which the message is being logged
      */
     public function warning(string $message, array $context = []): void
     {
@@ -44,9 +45,8 @@ final readonly class MonologLogger implements Logger
     /**
      * Logs a critical message using the Monolog logger.
      *
-     * @param string $message The message to be logged.
-     * @param array $context The context in which the message is being logged.
-     * @return void
+     * @param string $message the message to be logged
+     * @param array  $context the context in which the message is being logged
      */
     public function critical(string $message, array $context = []): void
     {
