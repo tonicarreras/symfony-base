@@ -38,7 +38,7 @@ class RegistrationController extends CustomController
         /** @psalm-suppress PossiblyNullArgument */
         $password = $passwordHasher->hashPassword($requestDTO, $requestDTO->password);
         /** @psalm-suppress PossiblyNullArgument */
-        $response = $handler->__invoke(new CreateUserCommand($requestDTO->username, $password, $requestDTO->roles));
+        $response = $handler(new CreateUserCommand($requestDTO->username, $password, $requestDTO->roles));
 
         return SuccessResponse::create($response);
     }

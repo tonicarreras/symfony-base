@@ -26,7 +26,7 @@ class GetUserByIdController extends CustomController
     #[Route('/user/get/{id}', name: 'get_user_by_id', methods: ['GET'])]
     public function __invoke(string $id, GetUserByIdQueryHandler $handler): JsonResponse
     {
-        $response = $handler->__invoke(new GetUserByIdQuery($id));
+        $response = $handler(new GetUserByIdQuery($id));
 
         return SuccessResponse::get($response);
     }
