@@ -33,18 +33,6 @@ abstract readonly class DomainEvent
     }
 
     /**
-     * Factory method to create an instance of a DomainEvent from primitive values.
-     *
-     * @return self a new instance of a subclass of DomainEvent
-     */
-    abstract public static function fromPrimitives(
-        string $aggregateId,
-        array $body,
-        string $eventId,
-        string $occurredOn
-    ): self;
-
-    /**
      * Returns the name of the event.
      *
      * @return string the name of the event

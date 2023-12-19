@@ -16,7 +16,7 @@ trait RolesValidationTrait
     /**
      * Validates an array of roles.
      *
-     * @param array $roles array of roles to be validated
+     * @param string[] $roles array of roles to be validated
      *
      * @return array array of validation errors, if any
      */
@@ -47,9 +47,6 @@ trait RolesValidationTrait
      */
     protected function isRoleValid(string $role): bool
     {
-        static $allowedRoles = null;
-        $allowedRoles = $allowedRoles ?? AllowedRoles::getRoles();
-
-        return in_array($role, $allowedRoles, true);
+        return in_array($role, AllowedRoles::getRoles(), true);
     }
 }

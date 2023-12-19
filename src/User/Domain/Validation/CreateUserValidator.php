@@ -53,6 +53,13 @@ class CreateUserValidator
         ]);
     }
 
+    /**
+     * Validates if the given roles exist.
+     *
+     * @param string[] $roles The array of roles to be validated
+     *
+     * @return array The array of valid roles. If the given roles array is empty, an empty array will be returned.
+     */
     private function validateRolesIfExists(array $roles): array
     {
         return empty($roles) ? [] : $this->validateRoles($roles);

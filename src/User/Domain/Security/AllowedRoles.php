@@ -17,7 +17,7 @@ readonly class AllowedRoles
     /**
      * Get the list of allowed roles.
      *
-     * @return array an array of allowed roles
+     * @return string[] an array of allowed roles
      */
     public static function getRoles(): array
     {

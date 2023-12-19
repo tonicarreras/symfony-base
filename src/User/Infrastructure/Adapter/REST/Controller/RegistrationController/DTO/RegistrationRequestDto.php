@@ -11,6 +11,15 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  */
 readonly class RegistrationRequestDto implements PasswordAuthenticatedUserInterface
 {
+    /**
+     * Constructor for the class.
+     *
+     * @param string|null   $username the username for the user
+     * @param string|null   $password the password for the user
+     * @param string[]|null $roles    The roles assigned to the user. Can be null.
+     *
+     * @return void
+     */
     public function __construct(
         public ?string $username,
         public ?string $password,

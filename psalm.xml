@@ -13,7 +13,7 @@
         </pluginClass>
     </plugins>
     <extraFiles>
-        <directory name="var/cache/dev/Symfony/Config" /> <!-- https://github.com/psalm/psalm-plugin-symfony/issues/201 -->
+        <directory name="var/cache/dev/Symfony/Config" />
     </extraFiles>
     <projectFiles>
         <directory name="src"/>
