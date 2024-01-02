@@ -23,10 +23,9 @@ trait RolesValidationTrait
     public function validateRoles(array $roles): array
     {
         $errors = [];
-        $allowedRoles = AllowedRoles::getRoles();
 
         foreach ($roles as $role) {
-            if (!in_array($role, $allowedRoles, true)) {
+            if (!$this->isRoleValid($role)) {
                 $errors[] = ValidationErrorFormatter::format(
                     'roles',
                     ConstraintType::INVALID,

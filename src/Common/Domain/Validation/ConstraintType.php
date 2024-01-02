@@ -11,7 +11,8 @@ namespace Common\Domain\Validation;
 class ConstraintType
 {
     public const string REQUIRED = 'required';
-    public const string LENGTH = 'length';
+    public const string MIN_LENGTH = 'min_length';
+    public const string MAX_LENGTH = 'max_length';
     public const string FORMAT = 'format';
     public const string NOT_BLANK = 'not_blank';
     public const string NOT_NULL = 'not_null';

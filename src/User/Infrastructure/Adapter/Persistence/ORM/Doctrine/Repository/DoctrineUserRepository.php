@@ -4,52 +4,72 @@ declare(strict_types=1);
 
 namespace User\Infrastructure\Adapter\Persistence\ORM\Doctrine\Repository;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
+use Common\Infrastructure\Adapter\Persistence\ORM\Doctrine\DoctrineRepository;
 use User\Domain\Model\User;
+use User\Domain\Model\UserId;
+use User\Domain\Model\Username;
 use User\Domain\Repository\UserRepository;
 
-/**
- * An implementation of UserRepository using Doctrine ORM for persistence.
- */
-class DoctrineUserRepository implements UserRepository
+readonly class DoctrineUserRepository extends DoctrineRepository implements UserRepository
 {
-    /** @var EntityRepository<User> */
-    private EntityRepository $userRepository;
+    /**
+     * Find a user by username.
+     *
+     * This method will return a User entity that matches the given username.
+     * If no user is found, it will return null.
+     * @param Username $username
+     * @return User|null
+     */
+    public function findByUsername(Username $username): ?User
+    {
+        return $this->repository(User::class)->findOneBy(['username.value' => $username->value()]);
+    }
 
     /**
-     * @param EntityManagerInterface $entityManager the Doctrine entity manager
+     * Find a user by id.
+     *
+     * This method will return a User entity that matches the given id.
+     * If no user is found, it will return null.
      */
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager
-    ) {
-        $this->userRepository = $entityManager->getRepository(User::class);
-    }
-
-    public function findByUsername(string $username): ?User
+    public function findById(UserId $id): ?User
     {
-        return $this->userRepository->findOneBy(['username' => $username]);
+        return $this->repository(User::class)->find($id);
     }
 
-    public function findById(string $id): ?User
-    {
-        return $this->userRepository->find($id);
-    }
-
-    public function save(User $user): void
-    {
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-    }
-
-    public function delete(User $user): void
-    {
-        $this->entityManager->remove($user);
-        $this->entityManager->flush();
-    }
-
+    /**
+     * Find all users.
+     *
+     * This method will return an array of all User entities.
+     * If no users are found, it will return an empty array.
+     *
+     * @return User[]
+     */
     public function findAll(): array
     {
-        return $this->userRepository->findAll();
+        return $this->repository(User::class)->findAll();
+    }
+
+    /**
+     * Save a user.
+     *
+     * This method will save the given User entity.
+     *
+     * @param User $user the User entity to be saved
+     */
+    public function save(User $user): void
+    {
+        $this->persist($user);
+    }
+
+    /**
+     * Delete a user.
+     *
+     * This method will delete the given User entity from the database.
+     *
+     * @param User $user the User entity to be deleted
+     */
+    public function delete(User $user): void
+    {
+        $this->remove($user);
     }
 }

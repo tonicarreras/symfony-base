@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace User\Domain\Event;
 
 use Common\Domain\Bus\Event\DomainEvent;
+use User\Domain\Model\Username;
 
 /**
  * Domain event for when a user is created.
@@ -12,10 +13,10 @@ use Common\Domain\Bus\Event\DomainEvent;
  * This class extends the DomainEvent class, providing specifics for the user creation event.
  * It encapsulates all the necessary data and behaviors related to this event.
  */
-readonly class CreateUserDomainEvent extends DomainEvent
+readonly class UserCreatedDomainEvent extends DomainEvent
 {
     /**
-     * Constructor for CreateUserDomainEvent.
+     * Constructor for UserCreatedDomainEvent.
      *
      * @param string      $id         the unique identifier for the event
      * @param string      $username   the username associated with the event

@@ -20,4 +20,9 @@ final readonly class GetUserByIdQuery implements Query
         public string $userId
     ) {
     }
+
+    public function userId(): string
+    {
+        return $this->userId;
+    }
 }

@@ -14,15 +14,13 @@ readonly class RegistrationRequestDto implements PasswordAuthenticatedUserInterf
     /**
      * Constructor for the class.
      *
-     * @param string|null   $username the username for the user
-     * @param string|null   $password the password for the user
+     * @param string        $username the username for the user
+     * @param string        $password the password for the user
      * @param string[]|null $roles    The roles assigned to the user. Can be null.
-     *
-     * @return void
      */
     public function __construct(
-        public ?string $username,
-        public ?string $password,
+        public string $username,
+        public string $password,
         public ?array $roles
     ) {
     }

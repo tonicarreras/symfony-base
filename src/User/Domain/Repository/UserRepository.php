@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace User\Domain\Repository;
 
 use User\Domain\Model\User;
+use User\Domain\Model\UserId;
+use User\Domain\Model\Username;
 
 /**
  * Interface for the user repository.
@@ -12,9 +14,9 @@ use User\Domain\Model\User;
  */
 interface UserRepository
 {
-    public function findById(string $id): ?User;
+    public function findById(UserId $id): ?User;
 
-    public function findByUsername(string $username): ?User;
+    public function findByUsername(Username $username): ?User;
 
     public function save(User $user): void;
 

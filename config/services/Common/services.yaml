@@ -41,6 +41,7 @@ services:
     Common\Application\Bus\Query\QueryHandler:
       tags: [ common.query_handler ]
 
+
   # In-Memory Event Bus
   # Defines the InMemorySymfonyEventBus service.
   Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus:

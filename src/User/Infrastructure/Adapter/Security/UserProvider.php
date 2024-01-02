@@ -11,6 +11,7 @@ use Common\Domain\Validation\Trait\NotBlankValidationTrait;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use User\Domain\Model\Username;
 use User\Infrastructure\Adapter\Persistence\ORM\Doctrine\Repository\DoctrineUserRepository;
 
 /**
@@ -47,7 +48,7 @@ readonly class UserProvider implements UserProviderInterface
             throw new ValidationException($violation);
         }
 
-        $user = $this->userRepository->findByUsername($username);
+        $user = $this->userRepository->findByUsername(new Username($username));
         if (null === $user) {
             throw new ResourceNotFoundException();
         }

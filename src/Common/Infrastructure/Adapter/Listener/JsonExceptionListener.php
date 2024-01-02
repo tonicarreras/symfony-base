@@ -10,10 +10,14 @@ use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Common\Domain\Exception\Constant\ExceptionType;
 use Common\Domain\Exception\ValidationException;
 use Common\Domain\Logger\Logger;
+use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
 use Common\Infrastructure\Adapter\Response\ErrorResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 final readonly class JsonExceptionListener
 {
@@ -66,11 +70,41 @@ final readonly class JsonExceptionListener
      *
      * @param \Throwable $exception the caught exception
      *
-     * @return mixed error data or null
+     * @return array|null error data or null
      */
-    private function getErrorData(\Throwable $exception): mixed
+    private function getErrorData(\Throwable $exception): ?array
     {
-        return $exception instanceof ValidationException ? $exception->getViolations() : null;
+        if ($exception instanceof ValidationException) {
+            return $exception->getViolations();
+        }
+
+        if ($exception instanceof HttpExceptionInterface && $exception->getPrevious() instanceof ValidationFailedException) {
+            /* @var ValidationFailedException $validationException */
+            $validationException = $exception->getPrevious();
+
+            return $this->formatSymfonyConstraintsViolations($validationException->getViolations());
+        }
+
+        return null;
+    }
+
+    /**
+     * Format validation exception errors.
+     */
+    private function formatSymfonyConstraintsViolations(ConstraintViolationListInterface $violations): array
+    {
+        $formattedViolations = [];
+
+        /** @var ConstraintViolation $violation */
+        foreach ($violations as $violation) {
+            $formattedViolations[] = ValidationErrorFormatter::format(
+                $violation->getMessage(),
+                $violation->getPropertyPath(),
+                $violation->getInvalidValue()
+            );
+        }
+
+        return $formattedViolations;
     }
 
     /**
@@ -105,6 +139,9 @@ final readonly class JsonExceptionListener
     {
         if (ExceptionStatusCode::INTERNAL_ERROR === $statusCode) {
             return ExceptionMessage::INTERNAL;
+        }
+        if ($exception instanceof HttpExceptionInterface && $exception->getPrevious() instanceof ValidationFailedException) {
+            return ExceptionMessage::VALIDATION;
         }
 
         return $exception->getMessage();

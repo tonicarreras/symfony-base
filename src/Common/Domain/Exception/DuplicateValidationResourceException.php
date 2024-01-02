@@ -24,8 +24,8 @@ final class DuplicateValidationResourceException extends ApiException
      * message indicating a duplicate resource error. The message is retrieved
      * from the ExceptionMessage constant.
      */
-    public function __construct()
+    public function __construct(string $message = ExceptionMessage::DUPLICATE)
     {
-        parent::__construct(ExceptionMessage::DUPLICATE, ExceptionStatusCode::DUPLICATE);
+        parent::__construct($message, ExceptionStatusCode::DUPLICATE);
     }
 }

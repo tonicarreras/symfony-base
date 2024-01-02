@@ -6,6 +6,8 @@ namespace User\Application\Query\GetUserById;
 
 use Common\Application\Bus\Query\QueryHandler;
 use Common\Domain\Exception\ResourceNotFoundException;
+use Common\Domain\Exception\ValidationException;
+use User\Domain\Model\UserId;
 use User\Domain\Repository\UserRepository;
 
 /**
@@ -32,19 +34,19 @@ final readonly class GetUserByIdQueryHandler implements QueryHandler
      * @return GetUserByIdResponse the response object with user details
      *
      * @throws ResourceNotFoundException thrown when the user is not found
+     * @throws ValidationException
      */
     public function __invoke(GetUserByIdQuery $query): GetUserByIdResponse
     {
-        $user = $this->userRepository->findById($query->userId);
-
+        $user = $this->userRepository->findById(new UserId($query->userId()));
         if (null === $user) {
             throw new ResourceNotFoundException();
         }
 
         return new GetUserByIdResponse(
-            $user->getId(),
-            $user->getUsername(),
-            $user->getRoles()
+            $user->id()->value(),
+            $user->username()->value(),
+            $user->roles()->value()
         );
     }
 }

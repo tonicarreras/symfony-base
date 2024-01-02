@@ -24,14 +24,19 @@ trait LengthValidationTrait
     public function validateLength(string $value, int $min, int $max, string $fieldName): array
     {
         $length = strlen($value);
-        if ($length < $min || $length > $max) {
-            return ValidationErrorFormatter::format(
-                ConstraintType::LENGTH,
-                $fieldName,
-                $value
-            );
+
+        if ($length < $min) {
+            $constraint = ConstraintType::MIN_LENGTH;
+        } elseif ($length > $max) {
+            $constraint = ConstraintType::MAX_LENGTH;
+        } else {
+            return [];
         }
 
-        return [];
+        return ValidationErrorFormatter::format(
+            $constraint,
+            $fieldName,
+            $value
+        );
     }
 }

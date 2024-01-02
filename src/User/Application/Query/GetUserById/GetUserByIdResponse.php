@@ -15,9 +15,9 @@ final readonly class GetUserByIdResponse implements QueryResponse
     /**
      * Constructor for GetUserByIdResponse.
      *
-     * @param string $id       the unique identifier of the user
-     * @param string $username the username of the user
-     * @param array  $roles    the roles assigned to the user
+     * @param string         $id       the unique identifier of the user
+     * @param string         $username the username of the user
+     * @param array|string[] $roles    the roles assigned to the user
      */
     public function __construct(
         public string $id,

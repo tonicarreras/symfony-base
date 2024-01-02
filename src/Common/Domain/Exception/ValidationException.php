@@ -7,6 +7,7 @@ namespace Common\Domain\Exception;
 use Common\Domain\Exception\Constant\ExceptionMessage;
 use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Common\Domain\Exception\Constant\ExceptionType;
+use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
 
 /**
  * ValidationException class for handling validation errors.
@@ -42,5 +43,17 @@ class ValidationException extends ApiException
     public function getViolations(): array
     {
         return $this->violations;
+    }
+
+    /**
+     * Adds a validation violation.
+     *
+     * @param string $constraint the type of constraint that was violated
+     * @param string $field      the field that was violated
+     * @param mixed  $value      the value that was violated
+     */
+    public function addViolation(string $constraint, string $field, mixed $value): void
+    {
+        $this->violations[] = ValidationErrorFormatter::format($constraint, $field, $value);
     }
 }

@@ -14,7 +14,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use User\Application\Command\CreateUser\CreateUserCommand;
 use User\Application\Command\CreateUser\CreateUserCommandHandler;
-use User\Domain\Validation\CreateUserValidator;
 use User\Infrastructure\Adapter\REST\Controller\RegistrationController\DTO\RegistrationRequestDto;
 
 class RegistrationController extends CustomController
@@ -22,23 +21,19 @@ class RegistrationController extends CustomController
     /**
      * Handles the registration request.
      *
-     * @throws ValidationException
      * @throws DuplicateValidationResourceException
+     * @throws ValidationException
      */
     #[Route('/register', name: 'register_user', methods: ['POST'])]
     public function __invoke(
         #[MapRequestPayload] RegistrationRequestDto $requestDTO,
         CreateUserCommandHandler $handler,
-        CreateUserValidator $validator,
         UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
-        $validator->validateAndThrows($requestDTO);
-
-        // PossiblyNullArgument is suppressed because the $requestDTO is validated in the CreateUserValidator
-        /** @psalm-suppress PossiblyNullArgument */
         $password = $passwordHasher->hashPassword($requestDTO, $requestDTO->password);
-        /** @psalm-suppress PossiblyNullArgument */
-        $response = $handler(new CreateUserCommand($requestDTO->username, $password, $requestDTO->roles));
+        $response = $handler(
+            new CreateUserCommand($requestDTO->username, $password, $requestDTO->roles)
+        );
 
         return SuccessResponse::create($response);
     }
