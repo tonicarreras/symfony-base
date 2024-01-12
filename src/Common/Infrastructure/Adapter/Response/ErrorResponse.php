@@ -33,6 +33,6 @@ final class ErrorResponse extends ApiResponse
         string $type = self::DEFAULT_TYPE,
         array $headers = []
     ): JsonResponse {
-        return self::apiResponse($data, $status, $message, $type, true, $headers);
+        return self::apiResponse($data, $message, $status, $type, true, $headers);
     }
 }

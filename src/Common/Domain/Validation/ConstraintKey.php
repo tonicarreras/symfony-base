@@ -18,5 +18,4 @@ class ConstraintKey
     public const string NOT_NULL = 'not_null';
     public const string RANGE = 'range';
     public const string INVALID = 'invalid';
-
 }

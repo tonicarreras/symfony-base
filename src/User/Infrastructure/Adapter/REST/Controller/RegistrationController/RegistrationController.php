@@ -35,6 +35,6 @@ class RegistrationController extends CustomController
             new CreateUserCommand($requestDTO->username, $password, $requestDTO->roles)
         );
 
-        return SuccessResponse::create($response);
+        return SuccessResponse::create($response, 'register_user');
     }
 }

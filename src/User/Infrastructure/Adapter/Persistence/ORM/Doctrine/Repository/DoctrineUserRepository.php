@@ -17,8 +17,6 @@ readonly class DoctrineUserRepository extends DoctrineRepository implements User
      *
      * This method will return a User entity that matches the given username.
      * If no user is found, it will return null.
-     * @param Username $username
-     * @return User|null
      */
     public function findByUsername(Username $username): ?User
     {

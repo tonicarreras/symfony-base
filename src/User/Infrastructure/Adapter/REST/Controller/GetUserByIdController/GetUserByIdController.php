@@ -32,6 +32,6 @@ class GetUserByIdController extends CustomController
     {
         $response = $handler(new GetUserByIdQuery($id));
 
-        return SuccessResponse::get($response);
+        return SuccessResponse::get($response, 'get_user_by_id');
     }
 }

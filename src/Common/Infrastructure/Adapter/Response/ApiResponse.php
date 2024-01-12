@@ -17,15 +17,15 @@ abstract class ApiResponse
      * Get the JSON response.
      *
      * @param mixed  $data    the data to be returned in the response
-     * @param int    $status  the HTTP status code for the response
      * @param string $message the message to be included in the response
+     * @param int    $status  the HTTP status code for the response
      * @param string $type    the type of the response
      * @param bool   $error   indicates whether the response is an error response
      */
     protected static function apiResponse(
         mixed $data,
-        int $status,
         string $message,
+        int $status,
         string $type,
         bool $error,
         array $headers
