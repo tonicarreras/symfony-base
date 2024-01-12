@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Common\Domain\ValueObject;
 
 use Common\Domain\Exception\ValidationException;
-use Common\Domain\Validation\ConstraintType;
+use Common\Domain\Validation\ConstraintKey;
 use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
 
 /**
@@ -30,7 +30,7 @@ abstract class Uuid implements \Stringable
         protected string $value
     ) {
         if (!self::validateUuid($value)) {
-            throw new ValidationException([ValidationErrorFormatter::format(ConstraintType::INVALID, 'id', $value)]);
+            throw new ValidationException([ValidationErrorFormatter::format(ConstraintKey::INVALID, 'id', $value)]);
         }
     }
 

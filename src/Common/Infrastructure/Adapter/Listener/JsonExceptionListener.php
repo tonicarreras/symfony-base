@@ -10,6 +10,7 @@ use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Common\Domain\Exception\Constant\ExceptionType;
 use Common\Domain\Exception\ValidationException;
 use Common\Domain\Logger\Logger;
+use Common\Domain\Validation\ConstraintKey;
 use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
 use Common\Infrastructure\Adapter\Response\ErrorResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,24 +20,41 @@ use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 
+/**
+ * Class JsonExceptionListener
+ *
+ * This class listens for exceptions thrown by the application and formats them into a JSON response.
+ * It also logs exceptions if the response status code is an internal error.
+ *
+ * @package Common\Infrastructure\Adapter\Listener
+ */
 final readonly class JsonExceptionListener
 {
-    // Array of exceptions that are allowed to be thrown by the application.
+    /**
+     * Array of exceptions that are allowed to be thrown by the application.
+     */
     public const array CUSTOM_EXCEPTIONS_FOR_USER = [
         HttpExceptionInterface::class, // \Symfony
         ApiException::class, // \Exception
         // (...)
     ];
 
+    /**
+     * JsonExceptionListener constructor.
+     *
+     * @param Logger $logger The logger instance.
+     */
     public function __construct(
         private Logger $logger
-    ) {
+    )
+    {
     }
 
     /**
      * This method is called when an exception occurs in the kernel.
      *
      * @param ExceptionEvent $event the event object containing the exception and request details
+     * @throws \ReflectionException|ApiException
      */
     public function onKernelException(ExceptionEvent $event): void
     {
@@ -52,6 +70,8 @@ final readonly class JsonExceptionListener
      * @param \Throwable $exception the caught exception
      *
      * @return JsonResponse the JSON response to be returned
+     * @throws \ReflectionException
+     * @throws ApiException
      */
     private function createJsonResponse(\Throwable $exception): JsonResponse
     {
@@ -66,72 +86,10 @@ final readonly class JsonExceptionListener
     }
 
     /**
-     * Retrieves error data from the exception if applicable.
-     *
-     * @param \Throwable $exception the caught exception
-     *
-     * @return array|null error data or null
-     */
-    private function getErrorData(\Throwable $exception): ?array
-    {
-        if ($exception instanceof ValidationException) {
-            return $exception->getViolations();
-        }
-
-        if ($exception instanceof HttpExceptionInterface && $exception->getPrevious() instanceof ValidationFailedException) {
-            /* @var ValidationFailedException $validationException */
-            $validationException = $exception->getPrevious();
-
-            return $this->formatSymfonyConstraintsViolations($validationException->getViolations());
-        }
-
-        return null;
-    }
-
-    /**
-     * Format validation exception errors.
-     */
-    private function formatSymfonyConstraintsViolations(ConstraintViolationListInterface $violations): array
-    {
-        $formattedViolations = [];
-
-        /** @var ConstraintViolation $violation */
-        foreach ($violations as $violation) {
-            $formattedViolations[] = ValidationErrorFormatter::format(
-                $violation->getMessage(),
-                $violation->getPropertyPath(),
-                $violation->getInvalidValue()
-            );
-        }
-
-        return $formattedViolations;
-    }
-
-    /**
-     * Determines the status code to be used in the response.
-     *
-     * @return int the status code
-     */
-    private function getStatusCode(\Throwable $exception): int
-    {
-        if ($this->isAllowedException($exception)) {
-            // For Symfony HttpExceptionInterface, use getStatusCode() if it's enabled.
-            if ($exception instanceof HttpExceptionInterface) {
-                return $exception->getStatusCode();
-            }
-
-            // For allowed exceptions, use getCode() if it's enabled.
-            return (int) $exception->getCode();
-        }
-
-        return ExceptionStatusCode::INTERNAL_ERROR;
-    }
-
-    /**
      * Generates an appropriate error message or throws a ValidationException.
      *
-     * @param \Throwable $exception  the caught exception
-     * @param int        $statusCode the HTTP status code
+     * @param \Throwable $exception the caught exception
+     * @param int $statusCode the HTTP status code
      *
      * @return string the error message
      */
@@ -151,6 +109,8 @@ final readonly class JsonExceptionListener
      * Determines the type of error based on the exception.
      *
      * @param \Throwable $exception the caught exception
+     *
+     * @return string the error type
      */
     private function getErrorType(\Throwable $exception): string
     {
@@ -162,18 +122,116 @@ final readonly class JsonExceptionListener
     }
 
     /**
-     * Logs the exception if the response status code is an internal error.
+     * Retrieves error data from the exception if applicable.
      *
-     * @param JsonResponse $response  the response object
-     * @param \Throwable   $exception the caught exception
+     * @param \Throwable $exception the caught exception
+     *
+     * @return array|null error data or null
+     * @throws \ReflectionException|ApiException
      */
-    private function logException(JsonResponse $response, \Throwable $exception): void
+    private function getErrorData(\Throwable $exception): ?array
     {
-        if (ExceptionStatusCode::INTERNAL_ERROR === $response->getStatusCode()) {
-            $this->logger->critical(
-                $exception->getMessage(), ['exception' => $exception->getTrace()]
+        if ($exception instanceof ValidationException) {
+            return $exception->getViolations();
+        }
+
+        if ($exception instanceof HttpExceptionInterface && $exception->getPrevious() instanceof ValidationFailedException) {
+            /* @var ValidationFailedException $validationException */
+            $validationException = $exception->getPrevious();
+            return $this->formatSymfonyConstraintsViolations($validationException->getViolations());
+        }
+
+        return null;
+    }
+
+    /**
+     * Format validation exception errors.
+     *
+     * @param ConstraintViolationListInterface $violations The list of constraint violations.
+     *
+     * @return array The formatted violations.
+     * @throws \ReflectionException
+     * @throws ApiException
+     */
+    private function formatSymfonyConstraintsViolations(ConstraintViolationListInterface $violations): array
+    {
+        $formattedViolations = [];
+
+        /** @var ConstraintViolation $violation */
+        foreach ($violations as $violation) {
+
+            $propertyPath = $violation->getPropertyPath();
+            if ($propertyPath === "") {
+                throw new ApiException(ExceptionMessage::INVALID_PAYLOAD, ExceptionStatusCode::BAD_REQUEST);
+            }
+
+            $constraint = $violation->getConstraint();
+            $constraintKey = self::symfonyConstraintKeyMap($constraint);
+            $formattedViolations[] = ValidationErrorFormatter::format(
+                $constraintKey,
+                $propertyPath,
+                $violation->getInvalidValue()
             );
         }
+
+        return $formattedViolations;
+    }
+
+    /**
+     * Maps Symfony constraint violation keys to application-specific keys.
+     *
+     * @param $constraint
+     * @return string|null The application-specific key for the constraint.
+     * @throws \ReflectionException
+     */
+    private static function symfonyConstraintKeyMap($constraint): ?string
+    {
+        $shortClassName = $constraint ? (new \ReflectionClass($constraint))->getShortName() : null;
+        return match ($shortClassName) {
+            'NotBlank' => ConstraintKey::NOT_BLANK,
+            'NotNull' => ConstraintKey::NOT_NULL,
+            'Length' => self::getLengthConstraintKey($constraint),
+            'Choice' => ConstraintKey::INVALID,
+            default => '',
+        };
+    }
+
+    /**
+     * Gets the length constraint key.
+     *
+     * @param $constraint
+     * @return string|void
+     */
+    private static function getLengthConstraintKey($constraint)
+    {
+        if ($constraint->min) {
+            return ConstraintKey::MIN_LENGTH;
+        }
+        if ($constraint->max) {
+            return ConstraintKey::MAX_LENGTH;
+        }
+    }
+
+    /**
+     * Determines the status code to be used in the response.
+     *
+     * @param \Throwable $exception the caught exception
+     *
+     * @return int the status code
+     */
+    private function getStatusCode(\Throwable $exception): int
+    {
+        if ($this->isAllowedException($exception)) {
+            // For Symfony HttpExceptionInterface, use getStatusCode() if it's enabled.
+            if ($exception instanceof HttpExceptionInterface) {
+                return $exception->getStatusCode();
+            }
+
+            // For allowed exceptions, use getCode() if it's enabled.
+            return (int)$exception->getCode();
+        }
+
+        return ExceptionStatusCode::INTERNAL_ERROR;
     }
 
     /**
@@ -193,4 +251,20 @@ final readonly class JsonExceptionListener
 
         return false;
     }
+
+    /**
+     * Logs the exception if the response status code is an internal error.
+     *
+     * @param JsonResponse $response the response object
+     * @param \Throwable $exception the caught exception
+     */
+    private function logException(JsonResponse $response, \Throwable $exception): void
+    {
+        if (ExceptionStatusCode::INTERNAL_ERROR === $response->getStatusCode()) {
+            $this->logger->critical(
+                $exception->getMessage(), ['exception' => $exception->getTrace()]
+            );
+        }
+    }
+
 }

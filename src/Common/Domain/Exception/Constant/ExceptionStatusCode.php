@@ -20,5 +20,5 @@ class ExceptionStatusCode
 
     public const int NOT_SUPPORTED = 405;
 
-    public const int INVALID_ARGUMENT = 400;
+    public const int BAD_REQUEST = 400;
 }

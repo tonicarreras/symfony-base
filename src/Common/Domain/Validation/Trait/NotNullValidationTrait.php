@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Common\Domain\Validation\Trait;
 
-use Common\Domain\Validation\ConstraintType;
+use Common\Domain\Validation\ConstraintKey;
 use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
 
 trait NotNullValidationTrait
@@ -21,7 +21,7 @@ trait NotNullValidationTrait
     {
         if (is_null($value)) {
             return ValidationErrorFormatter::format(
-                ConstraintType::NOT_NULL,
+                ConstraintKey::NOT_NULL,
                 $fieldName,
                 $value
             );

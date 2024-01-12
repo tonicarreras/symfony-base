@@ -18,4 +18,5 @@ class ExceptionMessage
     public const string NOT_FOUND = 'not_found';
     public const string DUPLICATE = 'duplicate';
     public const string NOT_SUPPORTED = 'not_supported';
+    public const string INVALID_PAYLOAD = 'invalid_payload';
 }

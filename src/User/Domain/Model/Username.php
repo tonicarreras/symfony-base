@@ -18,9 +18,9 @@ final readonly class Username extends StringValueObject
     use NotBlankValidationTrait;
     use LengthValidationTrait;
 
-    private const int USERNAME_MIN_LENGTH = 4;
-    private const int USERNAME_MAX_LENGTH = 20;
-    private const string USERNAME_FIELD_NAME = 'username';
+    public const int MIN_LENGTH = 4;
+    public const int MAX_LENGTH = 20;
+    private const string FIELD_NAME = 'username';
 
     /**
      * Username constructor.
@@ -33,8 +33,8 @@ final readonly class Username extends StringValueObject
     public function __construct(string $value)
     {
         $violations = array_merge(
-            $this->validateNotBlank($value, self::USERNAME_FIELD_NAME),
-            $this->validateLengthIfNotBlank($value, self::USERNAME_MIN_LENGTH, self::USERNAME_MAX_LENGTH, self::USERNAME_FIELD_NAME)
+            $this->validateNotBlank($value, self::FIELD_NAME),
+            $this->validateLengthIfNotBlank($value, self::MIN_LENGTH, self::MAX_LENGTH, self::FIELD_NAME)
         );
         if (!empty($violations)) {
             throw new ValidationException($violations);

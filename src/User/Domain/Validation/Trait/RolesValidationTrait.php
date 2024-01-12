@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace User\Domain\Validation\Trait;
 
-use Common\Domain\Validation\ConstraintType;
+use Common\Domain\Validation\ConstraintKey;
 use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
 use User\Domain\Security\AllowedRoles;
 
@@ -28,7 +28,7 @@ trait RolesValidationTrait
             if (!$this->isRoleValid($role)) {
                 $errors[] = ValidationErrorFormatter::format(
                     'roles',
-                    ConstraintType::INVALID,
+                    ConstraintKey::INVALID,
                     $role
                 );
             }

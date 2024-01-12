@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Common\Domain\Validation\Trait;
 
-use Common\Domain\Validation\ConstraintType;
+use Common\Domain\Validation\ConstraintKey;
 use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
 
 trait RangeValidationTrait
@@ -23,7 +23,7 @@ trait RangeValidationTrait
     {
         if ($value < $min || $value > $max) {
             return ValidationErrorFormatter::format(
-                ConstraintType::RANGE,
+                ConstraintKey::RANGE,
                 $fieldName,
                 $value
             );

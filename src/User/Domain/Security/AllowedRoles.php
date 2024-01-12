@@ -12,7 +12,7 @@ readonly class AllowedRoles
     /**
      * An array of allowed roles.
      */
-    public const array ALLOWED_ROLES = ['ROLE_ADMIN', 'ROLE_USER'];
+    public const array ROLES = ['ROLE_ADMIN', 'ROLE_USER'];
 
     /**
      * Get the list of allowed roles.
@@ -21,6 +21,6 @@ readonly class AllowedRoles
      */
     public static function getRoles(): array
     {
-        return self::ALLOWED_ROLES;
+        return self::ROLES;
     }
 }

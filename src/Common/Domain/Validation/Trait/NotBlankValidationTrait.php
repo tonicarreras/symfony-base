@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Common\Domain\Validation\Trait;
 
-use Common\Domain\Validation\ConstraintType;
+use Common\Domain\Validation\ConstraintKey;
 use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
 
 trait NotBlankValidationTrait
@@ -21,7 +21,7 @@ trait NotBlankValidationTrait
     {
         if (empty($value)) {
             return ValidationErrorFormatter::format(
-                ConstraintType::NOT_BLANK,
+                ConstraintKey::NOT_BLANK,
                 $fieldName,
                 $value
             );

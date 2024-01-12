@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Common\Domain\Validation\Trait;
 
-use Common\Domain\Validation\ConstraintType;
+use Common\Domain\Validation\ConstraintKey;
 use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
 
 trait LengthValidationTrait
@@ -26,9 +26,9 @@ trait LengthValidationTrait
         $length = strlen($value);
 
         if ($length < $min) {
-            $constraint = ConstraintType::MIN_LENGTH;
+            $constraint = ConstraintKey::MIN_LENGTH;
         } elseif ($length > $max) {
-            $constraint = ConstraintType::MAX_LENGTH;
+            $constraint = ConstraintKey::MAX_LENGTH;
         } else {
             return [];
         }

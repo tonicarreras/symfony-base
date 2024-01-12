@@ -25,10 +25,10 @@ final class RequestListener
         $contentType = $request->headers->get('Content-Type');
 
         if (self::ALLOWED_CONTENT_TYPE !== $contentType) {
-            throw new BadRequestException('Invalid Content-Type. Only application/json is allowed.', ExceptionStatusCode::INVALID_ARGUMENT);
+            throw new BadRequestException('Invalid Content-Type. Only application/json is allowed.', ExceptionStatusCode::BAD_REQUEST);
         }
         if (empty($request->getContent()) && $this->isContentMethod($request->getMethod())) {
-            throw new BadRequestException('Request body cannot be empty for this method', ExceptionStatusCode::INVALID_ARGUMENT);
+            throw new BadRequestException('Request body cannot be empty for this method', ExceptionStatusCode::BAD_REQUEST);
         }
     }
 
