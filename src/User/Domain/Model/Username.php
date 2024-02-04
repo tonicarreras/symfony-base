@@ -2,9 +2,9 @@
 
 namespace User\Domain\Model;
 
-use Common\Domain\Exception\ValidationException;
-use Common\Domain\Validation\Trait\LengthValidationTrait;
-use Common\Domain\Validation\Trait\NotBlankValidationTrait;
+use App\Common\Application\Exception\ValidationException;
+use Common\Application\Validation\Trait\LengthValidationTrait;
+use Common\Application\Validation\Trait\NotBlankValidationTrait;
 use Common\Domain\ValueObject\StringValueObject;
 
 /**

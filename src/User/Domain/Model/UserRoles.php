@@ -2,7 +2,7 @@
 
 namespace User\Domain\Model;
 
-use Common\Domain\Exception\ValidationException;
+use App\Common\Application\Exception\ValidationException;
 use Common\Domain\ValueObject\ArrayValueObject;
 use User\Domain\Validation\Trait\RolesValidationTrait;
 

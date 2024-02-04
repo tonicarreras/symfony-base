@@ -28,7 +28,7 @@ services:
       $level: 'error'
       $stream: '%kernel.logs_dir%/exception_%kernel.environment%.log'
 
-  Common\Infrastructure\Adapter\Logger\MonologLogger:
+  Common\Infrastructure\Implementation\Logger\MonologLogger:
     arguments:
       $logger: '@Monolog\Logger'
 

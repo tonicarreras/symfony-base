@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Common\Domain\Exception;
+namespace Common\Application\Exception;
 
+use Common\Application\Validation\Formatter\ValidationErrorFormatter;
+use Common\Domain\Exception\ApiException;
 use Common\Domain\Exception\Constant\ExceptionMessage;
 use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Common\Domain\Exception\Constant\ExceptionType;
-use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
 
 /**
  * ValidationException class for handling validation errors.

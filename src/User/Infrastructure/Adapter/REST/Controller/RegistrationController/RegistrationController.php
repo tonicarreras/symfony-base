@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace User\Infrastructure\Adapter\REST\Controller\RegistrationController;
 
+use App\Common\Application\Exception\ValidationException;
 use Common\Domain\Exception\DuplicateValidationResourceException;
-use Common\Domain\Exception\ValidationException;
 use Common\Infrastructure\Adapter\Response\SuccessResponse;
-use Common\Infrastructure\Adapter\REST\Controller\CustomController;
+use Common\Infrastructure\Adapter\REST\Controller\CommandQueryController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -16,7 +16,7 @@ use User\Application\Command\CreateUser\CreateUserCommand;
 use User\Application\Command\CreateUser\CreateUserCommandHandler;
 use User\Infrastructure\Adapter\REST\Controller\RegistrationController\DTO\RegistrationRequestDto;
 
-class RegistrationController extends CustomController
+class RegistrationController extends CommandQueryController
 {
     /**
      * Handles the registration request.

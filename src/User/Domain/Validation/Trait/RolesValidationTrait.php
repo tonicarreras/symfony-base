@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace User\Domain\Validation\Trait;
 
-use Common\Domain\Validation\ConstraintKey;
-use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
+use Common\Application\Validation\ConstraintKey;
+use Common\Application\Validation\Formatter\ValidationErrorFormatter;
 use User\Domain\Security\AllowedRoles;
 
 /**

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace User\Application\Query\GetUserById;
 
+use App\Common\Application\Exception\ValidationException;
 use Common\Application\Bus\Query\QueryHandler;
 use Common\Domain\Exception\ResourceNotFoundException;
-use Common\Domain\Exception\ValidationException;
 use User\Domain\Model\UserId;
 use User\Domain\Repository\UserRepository;
 

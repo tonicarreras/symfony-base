@@ -1,8 +1,8 @@
 <?php
 
-namespace Common\Infrastructure\Adapter\Logger;
+namespace Common\Infrastructure\Implementation\Logger;
 
-use Common\Domain\Logger\Logger;
+use Common\Infrastructure\Adapter\Logger\Logger;
 
 /**
  * Class MonologLogger

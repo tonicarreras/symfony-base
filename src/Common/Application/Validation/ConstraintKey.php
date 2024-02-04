@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Common\Domain\Validation;
+namespace Common\Application\Validation;
 
 /**
  * Class containing constants for various types of validation constraints.

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace User\Infrastructure\Adapter\Security;
 
+use App\Common\Application\Exception\ValidationException;
+use Common\Application\Validation\Trait\NotBlankValidationTrait;
 use Common\Domain\Exception\Constant\ExceptionMessage;
 use Common\Domain\Exception\ResourceNotFoundException;
-use Common\Domain\Exception\ValidationException;
-use Common\Domain\Validation\Trait\NotBlankValidationTrait;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;

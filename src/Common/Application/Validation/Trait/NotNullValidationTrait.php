@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Common\Domain\Validation\Trait;
+namespace Common\Application\Validation\Trait;
 
-use Common\Domain\Validation\ConstraintKey;
-use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
+use Common\Application\Validation\ConstraintKey;
+use Common\Application\Validation\Formatter\ValidationErrorFormatter;
 
 trait NotNullValidationTrait
 {

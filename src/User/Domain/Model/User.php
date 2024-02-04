@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace User\Domain\Model;
 
+use Common\Application\Exception\ValidationException;
 use Common\Domain\Aggregate\AggregateRoot;
-use Common\Domain\Exception\ValidationException;
 use User\Domain\Event\UserCreatedDomainEvent;
 
 /**

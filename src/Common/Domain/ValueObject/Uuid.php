@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Common\Domain\ValueObject;
 
-use Common\Domain\Exception\ValidationException;
-use Common\Domain\Validation\ConstraintKey;
-use Common\Domain\Validation\Formatter\ValidationErrorFormatter;
+use Common\Application\Exception\ValidationException;
+use Common\Application\Validation\ConstraintKey;
+use Common\Application\Validation\Formatter\ValidationErrorFormatter;
 
 /**
  * Abstract class Uuid.

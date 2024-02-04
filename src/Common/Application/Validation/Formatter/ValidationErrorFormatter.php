@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Common\Domain\Validation\Formatter;
+namespace Common\Application\Validation\Formatter;
 
 class ValidationErrorFormatter
 {
