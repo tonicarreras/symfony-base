@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace User\Infrastructure\Adapter\REST\Controller\RegistrationController;
 
-use App\Common\Application\Exception\ValidationException;
+use Common\Application\Exception\ValidationException;
 use Common\Domain\Exception\DuplicateValidationResourceException;
 use Common\Infrastructure\Adapter\Response\SuccessResponse;
 use Common\Infrastructure\Adapter\REST\Controller\CommandQueryController;
@@ -21,8 +21,7 @@ class RegistrationController extends CommandQueryController
     /**
      * Handles the registration request.
      *
-     * @throws DuplicateValidationResourceException
-     * @throws ValidationException
+     * @throws DuplicateValidationResourceException|ValidationException
      */
     #[Route('/register', name: 'register_user', methods: ['POST'])]
     public function __invoke(

@@ -26,8 +26,8 @@ readonly class UserCreatedDomainEvent extends DomainEvent
     public function __construct(
         string $id,
         private string $username,
-        string $eventId = null,
-        string $occurredOn = null
+        ?string $eventId = null,
+        ?string $occurredOn = null
     ) {
         parent::__construct($id, $eventId, $occurredOn);
     }

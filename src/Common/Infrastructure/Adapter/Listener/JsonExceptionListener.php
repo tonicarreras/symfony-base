@@ -5,17 +5,22 @@ declare(strict_types=1);
 namespace Common\Infrastructure\Adapter\Listener;
 
 use Common\Application\Exception\ValidationException;
-use Common\Infrastructure\Adapter\Logger\Logger;
 use Common\Application\Validation\ConstraintKey;
 use Common\Application\Validation\Formatter\ValidationErrorFormatter;
 use Common\Domain\Exception\ApiException;
 use Common\Domain\Exception\Constant\ExceptionMessage;
 use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Common\Domain\Exception\Constant\ExceptionType;
+use Common\Infrastructure\Adapter\Logger\Logger;
 use Common\Infrastructure\Adapter\Response\ErrorResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
@@ -52,7 +57,7 @@ final readonly class JsonExceptionListener
      *
      * @param ExceptionEvent $event the event object containing the exception and request details
      *
-     * @throws \ReflectionException|ApiException
+     * @throws ApiException
      */
     public function onKernelException(ExceptionEvent $event): void
     {
@@ -69,7 +74,6 @@ final readonly class JsonExceptionListener
      *
      * @return JsonResponse the JSON response to be returned
      *
-     * @throws \ReflectionException
      * @throws ApiException
      */
     private function createJsonResponse(\Throwable $exception): JsonResponse
@@ -127,7 +131,7 @@ final readonly class JsonExceptionListener
      *
      * @return array|null error data or null
      *
-     * @throws \ReflectionException|ApiException
+     * @throws ApiException
      */
     private function getErrorData(\Throwable $exception): ?array
     {
@@ -152,7 +156,6 @@ final readonly class JsonExceptionListener
      *
      * @return array the formatted violations
      *
-     * @throws \ReflectionException
      * @throws ApiException
      */
     private function formatSymfonyConstraintsViolations(ConstraintViolationListInterface $violations): array
@@ -182,18 +185,14 @@ final readonly class JsonExceptionListener
      * Maps Symfony constraint violation keys to application-specific keys.
      *
      * @return string|null the application-specific key for the constraint
-     *
-     * @throws \ReflectionException
      */
-    private static function symfonyConstraintKeyMap($constraint): ?string
+    private static function symfonyConstraintKeyMap(?Constraint $constraint): ?string
     {
-        $shortClassName = $constraint ? (new \ReflectionClass($constraint))->getShortName() : null;
-
-        return match ($shortClassName) {
-            'NotBlank' => ConstraintKey::NOT_BLANK,
-            'NotNull' => ConstraintKey::NOT_NULL,
-            'Length' => self::getLengthConstraintKey($constraint),
-            'Choice' => ConstraintKey::INVALID,
+        return match (true) {
+            $constraint instanceof NotBlank => ConstraintKey::NOT_BLANK,
+            $constraint instanceof NotNull => ConstraintKey::NOT_NULL,
+            $constraint instanceof Length => self::getLengthConstraintKey($constraint),
+            $constraint instanceof Choice => ConstraintKey::INVALID,
             default => '',
         };
     }
@@ -203,12 +202,12 @@ final readonly class JsonExceptionListener
      *
      * @return string|void
      */
-    private static function getLengthConstraintKey($constraint)
+    private static function getLengthConstraintKey(Length $constraint)
     {
-        if ($constraint->min) {
+        if (null !== $constraint->min && $constraint->min > 0) {
             return ConstraintKey::MIN_LENGTH;
         }
-        if ($constraint->max) {
+        if (null !== $constraint->max && $constraint->max > 0) {
             return ConstraintKey::MAX_LENGTH;
         }
     }

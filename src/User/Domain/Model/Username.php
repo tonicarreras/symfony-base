@@ -2,7 +2,7 @@
 
 namespace User\Domain\Model;
 
-use App\Common\Application\Exception\ValidationException;
+use Common\Application\Exception\ValidationException;
 use Common\Application\Validation\Trait\LengthValidationTrait;
 use Common\Application\Validation\Trait\NotBlankValidationTrait;
 use Common\Domain\ValueObject\StringValueObject;
@@ -34,26 +34,11 @@ final readonly class Username extends StringValueObject
     {
         $violations = array_merge(
             $this->validateNotBlank($value, self::FIELD_NAME),
-            $this->validateLengthIfNotBlank($value, self::MIN_LENGTH, self::MAX_LENGTH, self::FIELD_NAME)
+            $this->validateLength($value, self::MIN_LENGTH, self::MAX_LENGTH, self::FIELD_NAME)
         );
         if (!empty($violations)) {
             throw new ValidationException($violations);
         }
         parent::__construct($value);
-    }
-
-    /**
-     * Validates the length of the value if it is not blank.
-     *
-     * @param ?string $value     The value to validate
-     * @param int     $min       The minimum length
-     * @param int     $max       The maximum length
-     * @param string  $fieldName The field name
-     *
-     * @return array An array of validation errors, if any
-     */
-    private function validateLengthIfNotBlank(?string $value, int $min, int $max, string $fieldName): array
-    {
-        return empty($value) ? [] : $this->validateLength($value, $min, $max, $fieldName);
     }
 }

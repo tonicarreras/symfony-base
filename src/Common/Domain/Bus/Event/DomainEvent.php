@@ -25,11 +25,11 @@ abstract readonly class DomainEvent
      */
     public function __construct(
         private string $aggregateId,
-        string $eventId = null,
-        string $occurredOn = null
+        ?string $eventId = null,
+        ?string $occurredOn = null
     ) {
-        $this->eventId = $eventId ?: Uuid::generateUuid();
-        $this->occurredOn = $occurredOn ?: self::dateToString(new \DateTimeImmutable());
+        $this->eventId = $eventId ?? Uuid::generateUuid();
+        $this->occurredOn = $occurredOn ?? self::dateToString(new \DateTimeImmutable());
     }
 
     /**

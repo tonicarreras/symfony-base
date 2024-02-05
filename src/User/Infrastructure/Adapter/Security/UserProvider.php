@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace User\Infrastructure\Adapter\Security;
 
-use App\Common\Application\Exception\ValidationException;
+use Common\Application\Exception\ValidationException;
 use Common\Application\Validation\Trait\NotBlankValidationTrait;
 use Common\Domain\Exception\Constant\ExceptionMessage;
 use Common\Domain\Exception\ResourceNotFoundException;

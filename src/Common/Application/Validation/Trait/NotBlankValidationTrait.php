@@ -19,7 +19,7 @@ trait NotBlankValidationTrait
      */
     public function validateNotBlank(?string $value, string $fieldName): array
     {
-        if (empty($value)) {
+        if (null === $value || '' === $value) {
             return ValidationErrorFormatter::format(
                 ConstraintKey::NOT_BLANK,
                 $fieldName,

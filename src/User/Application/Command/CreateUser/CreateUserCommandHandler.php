@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace User\Application\Command\CreateUser;
 
-use App\Common\Application\Exception\ValidationException;
 use Common\Application\Bus\Command\CommandHandler;
+use Common\Application\Exception\ValidationException;
 use Common\Domain\Exception\DuplicateValidationResourceException;
 use Common\Domain\ValueObject\Uuid;
 use User\Domain\Model\UserId;

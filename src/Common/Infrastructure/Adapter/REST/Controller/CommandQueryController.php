@@ -21,14 +21,13 @@ class CommandQueryController extends AbstractController implements CommandQueryM
     /**
      * The constructor initializes the CustomController with a QueryBus and a CommandBus.
      *
-     * @param QueryBus $queryBus the QueryBus to be used for dispatching queries
+     * @param QueryBus   $queryBus   the QueryBus to be used for dispatching queries
      * @param CommandBus $commandBus the CommandBus to be used for dispatching commands
      */
     public function __construct(
-        private readonly QueryBus   $queryBus,
+        private readonly QueryBus $queryBus,
         private readonly CommandBus $commandBus
-    )
-    {
+    ) {
     }
 
     /**
