@@ -1,6 +1,6 @@
 <?php
 
-namespace Common\Infrastructure\Adapter\Bus\Event\MySql;
+namespace Common\Infrastructure\Implementation\Bus\Event\MySql;
 
 use Common\Domain\Bus\Event\DomainEvent;
 use Common\Domain\Bus\Event\EventBus;

@@ -2,7 +2,7 @@
 
 namespace Common\Infrastructure\Implementation\Logger;
 
-use Common\Infrastructure\Adapter\Logger\Logger;
+use Common\Domain\Service\Logger\Logger;
 
 /**
  * Class MonologLogger

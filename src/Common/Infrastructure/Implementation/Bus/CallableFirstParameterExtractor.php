@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Common\Infrastructure\Adapter\Bus;
+namespace Common\Infrastructure\Implementation\Bus;
 
 /**
  * This class is responsible for determining the type of the first parameter of callable objects.

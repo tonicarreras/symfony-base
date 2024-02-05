@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory;
+namespace Common\Infrastructure\Implementation\Bus\Event\Symfony\InMemory;
 
 use Common\Domain\Bus\Event\DomainEvent;
 use Common\Domain\Bus\Event\EventBus;
-use Common\Infrastructure\Adapter\Bus\CallableFirstParameterExtractor;
+use Common\Infrastructure\Implementation\Bus\CallableFirstParameterExtractor;
 use Symfony\Component\Messenger\Exception\NoHandlerForMessageException;
 use Symfony\Component\Messenger\Handler\HandlersLocator;
 use Symfony\Component\Messenger\MessageBus;

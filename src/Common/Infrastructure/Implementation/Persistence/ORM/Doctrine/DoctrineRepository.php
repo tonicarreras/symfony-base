@@ -1,6 +1,6 @@
 <?php
 
-namespace Common\Infrastructure\Adapter\Persistence\ORM\Doctrine;
+namespace Common\Infrastructure\Implementation\Persistence\ORM\Doctrine;
 
 use Common\Domain\Aggregate\AggregateRoot;
 use Doctrine\ORM\EntityManagerInterface;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace User\Infrastructure\Adapter\Persistence\ORM\Doctrine\Repository;
+namespace User\Infrastructure\Implementation\Persistence\ORM\Doctrine\Repository;
 
-use Common\Infrastructure\Adapter\Persistence\ORM\Doctrine\DoctrineRepository;
+use Common\Infrastructure\Implementation\Persistence\ORM\Doctrine\DoctrineRepository;
 use User\Domain\Model\User;
 use User\Domain\Model\UserId;
 use User\Domain\Model\Username;

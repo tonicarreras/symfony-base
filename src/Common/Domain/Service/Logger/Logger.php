@@ -1,6 +1,6 @@
 <?php
 
-namespace Common\Infrastructure\Adapter\Logger;
+namespace Common\Domain\Service\Logger;
 
 /**
  * Interface Logger

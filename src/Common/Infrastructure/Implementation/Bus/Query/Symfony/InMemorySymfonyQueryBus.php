@@ -1,12 +1,12 @@
 <?php
 
-namespace Common\Infrastructure\Adapter\Bus\Query\Symfony;
+namespace Common\Infrastructure\Implementation\Bus\Query\Symfony;
 
 use Common\Application\Bus\Exception\QueryNotRegisteredException;
 use Common\Application\Bus\Query\Query;
 use Common\Application\Bus\Query\QueryBus;
 use Common\Application\Bus\Query\QueryResponse;
-use Common\Infrastructure\Adapter\Bus\CallableFirstParameterExtractor;
+use Common\Infrastructure\Implementation\Bus\CallableFirstParameterExtractor;
 use Symfony\Component\Messenger\Exception\NoHandlerForMessageException;
 use Symfony\Component\Messenger\Handler\HandlersLocator;
 use Symfony\Component\Messenger\MessageBus;

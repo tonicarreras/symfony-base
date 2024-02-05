@@ -11,7 +11,7 @@ use Common\Domain\Exception\ApiException;
 use Common\Domain\Exception\Constant\ExceptionMessage;
 use Common\Domain\Exception\Constant\ExceptionStatusCode;
 use Common\Domain\Exception\Constant\ExceptionType;
-use Common\Infrastructure\Adapter\Logger\Logger;
+use Common\Domain\Service\Logger\Logger;
 use Common\Infrastructure\Adapter\Response\ErrorResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;

@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use User\Domain\Model\Username;
-use User\Infrastructure\Adapter\Persistence\ORM\Doctrine\Repository\DoctrineUserRepository;
+use User\Infrastructure\Implementation\Persistence\ORM\Doctrine\Repository\DoctrineUserRepository;
 
 /**
  * Implements the UserProviderInterface for Symfony security,

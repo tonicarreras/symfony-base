@@ -1,11 +1,11 @@
 <?php
 
-namespace Common\Infrastructure\Adapter\Bus\Command\Symfony;
+namespace Common\Infrastructure\Implementation\Bus\Command\Symfony;
 
 use Common\Application\Bus\Command\Command;
 use Common\Application\Bus\Command\CommandBus;
 use Common\Application\Bus\Exception\CommandNotRegisteredException;
-use Common\Infrastructure\Adapter\Bus\CallableFirstParameterExtractor;
+use Common\Infrastructure\Implementation\Bus\CallableFirstParameterExtractor;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\Exception\NoHandlerForMessageException;
 use Symfony\Component\Messenger\Handler\HandlersLocator;

@@ -44,18 +44,18 @@ services:
 
   # In-Memory Event Bus
   # Defines the InMemorySymfonyEventBus service.
-  Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus:
+  Common\Infrastructure\Implementation\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus:
     arguments: [ !tagged_iterator common.domain_event_subscriber ]  # Injects all tagged domain event subscribers.
     lazy: true  # The service is only initialized when it's actually needed.
 
   # Defines the InMemorySymfonyCommandBus service.
-  Common\Infrastructure\Adapter\Bus\Command\Symfony\InMemorySymfonyCommandBus:
+  Common\Infrastructure\Implementation\Bus\Command\Symfony\InMemorySymfonyCommandBus:
     arguments: [ !tagged_iterator common.command_handler ]  # Injects all tagged command handlers.
 
   # Defines the InMemorySymfonyQueryBus service.
-  Common\Infrastructure\Adapter\Bus\Query\Symfony\InMemorySymfonyQueryBus:
+  Common\Infrastructure\Implementation\Bus\Query\Symfony\InMemorySymfonyQueryBus:
     arguments: [ !tagged_iterator common.query_handler ]  # Injects all tagged query handlers.
 
   # -- IMPLEMENTATIONS SELECTOR --
   # Defines the EventBus service and sets its implementation to InMemorySymfonyEventBus.
-  Common\Domain\Bus\Event\EventBus: '@Common\Infrastructure\Adapter\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus'
+  Common\Domain\Bus\Event\EventBus: '@Common\Infrastructure\Implementation\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus'
