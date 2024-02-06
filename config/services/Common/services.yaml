@@ -31,31 +31,3 @@ services:
   Common\Infrastructure\Implementation\Logger\MonologLogger:
     arguments:
       $logger: '@Monolog\Logger'
-
-  # Instance configuration for specific classes.
-  _instanceof:
-    Common\Domain\Bus\Event\DomainEventSubscriber:
-      tags: [ common.domain_event_subscriber ]
-    Common\Application\Bus\Command\CommandHandler:
-      tags: [ common.command_handler ]
-    Common\Application\Bus\Query\QueryHandler:
-      tags: [ common.query_handler ]
-
-
-  # In-Memory Event Bus
-  # Defines the InMemorySymfonyEventBus service.
-  Common\Infrastructure\Implementation\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus:
-    arguments: [ !tagged_iterator common.domain_event_subscriber ]  # Injects all tagged domain event subscribers.
-    lazy: true  # The service is only initialized when it's actually needed.
-
-  # Defines the InMemorySymfonyCommandBus service.
-  Common\Infrastructure\Implementation\Bus\Command\Symfony\InMemorySymfonyCommandBus:
-    arguments: [ !tagged_iterator common.command_handler ]  # Injects all tagged command handlers.
-
-  # Defines the InMemorySymfonyQueryBus service.
-  Common\Infrastructure\Implementation\Bus\Query\Symfony\InMemorySymfonyQueryBus:
-    arguments: [ !tagged_iterator common.query_handler ]  # Injects all tagged query handlers.
-
-  # -- IMPLEMENTATIONS SELECTOR --
-  # Defines the EventBus service and sets its implementation to InMemorySymfonyEventBus.
-  Common\Domain\Bus\Event\EventBus: '@Common\Infrastructure\Implementation\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus'

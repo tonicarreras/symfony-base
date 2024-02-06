@@ -4,51 +4,104 @@ declare(strict_types=1);
 
 namespace Common\Infrastructure\Implementation\Bus;
 
+use function Lambdish\Phunctional\map;
+use function Lambdish\Phunctional\reindex;
+
 /**
  * This class is responsible for determining the type of the first parameter of callable objects.
  * It is particularly useful for matching event handlers or similar callable objects with their
- * intended processing logic based on the parameter type they expect.
+ * intended processing logic based on the parameter type they expect. This functionality can be
+ * instrumental in event-driven architectures or systems where dynamic callback invocation is needed
+ * based on specific types of events or requests.
  */
 final class CallableFirstParameterExtractor
 {
     /**
-     * Extracts the first parameter type of the '__invoke' method from a collection of callable objects.
+     * Processes an iterable of callables and determines the type of the first parameter for each.
+     * This method uses a combination of mapping and reindexing functions to transform the given
+     * callables into an array where each element represents the determined type.
      *
-     * @param iterable $callables a collection of callable objects
+     * @param iterable $callables an iterable collection of callable objects to be processed
      *
-     * @return array an associative array mapping each callable to the type of its first parameter
+     * @return array an array containing the types of the first parameters of the given callables
      */
     public static function forCallables(iterable $callables): array
     {
-        return array_map(static fn ($handler) => is_object($handler) ? self::extract($handler) : null, (array) $callables);
+        return map(self::unflatten(), reindex(self::classExtractor(new self()), $callables));
     }
 
     /**
-     * Extracts the type of the first parameter of a callable object's '__invoke' method.
+     * Returns a callable that extracts the class type of the first parameter of a given handler.
      *
-     * @param object $handler the callable object to inspect
+     * @param self $parameterExtractor an instance of CallableFirstParameterExtractor
      *
-     * @return string|null the type of the first parameter, or null if it's not applicable or can't be determined
+     * @return callable a function that takes a handler object and returns the class name of its first parameter, or null if not applicable
      */
-    private static function extract(object $handler): ?string
+    private static function classExtractor(self $parameterExtractor): callable
     {
-        try {
-            $reflector = new \ReflectionClass($handler);
-            $method = $reflector->getMethod('__invoke');
-        } catch (\ReflectionException $e) {
-            throw new \LogicException('Error processing handler: '.$e->getMessage(), 0, $e);
-        }
+        return static fn (object $handler): ?string => $parameterExtractor->extract($handler);
+    }
 
-        // Check if the method has exactly one parameter.
-        if (1 === $method->getNumberOfParameters()) {
-            $firstParameterType = $method->getParameters()[0]->getType();
+    /**
+     * Returns a callable that transforms a given value into an array containing that value.
+     * This is used to ensure consistent return types for processing.
+     *
+     * @return callable a function that takes a mixed value and returns an array containing that value
+     */
+    private static function unflatten(): callable
+    {
+        return static fn (mixed $value): array => [$value];
+    }
 
-            // Check if the parameter type is not a built-in type (e.g., int, string) and return its name.
-            if ($firstParameterType instanceof \ReflectionNamedType && !$firstParameterType->isBuiltin()) {
-                return $firstParameterType->getName();
-            }
+    /**
+     * Extracts the type of the first parameter from the `__invoke` method of a given class.
+     *
+     * @param object $class the object from which to extract the first parameter type of its `__invoke` method
+     *
+     * @return ?string the class name of the first parameter, or null if it cannot be determined
+     * @throws \ReflectionException
+     */
+    public function extract(object $class): ?string
+    {
+        $reflector = new \ReflectionClass($class);
+        $method = $reflector->getMethod('__invoke');
+
+        if ($this->hasOnlyOneParameter($method)) {
+            return $this->firstParameterClassFrom($method);
         }
 
         return null;
+    }
+
+    /**
+     * Retrieves the class name of the first parameter from a given ReflectionMethod.
+     *
+     * @param \ReflectionMethod $method the method from which to extract the first parameter's class name
+     *
+     * @return string the class name of the first parameter
+     *
+     * @throws \LogicException if there is no type hint for the first parameter
+     */
+    private function firstParameterClassFrom(\ReflectionMethod $method): string
+    {
+        $firstParameterType = $method->getParameters()[0]->getType();
+
+        if (null === $firstParameterType) {
+            throw new \LogicException('Missing type hint for the first parameter of __invoke');
+        }
+
+        return $firstParameterType->getName();
+    }
+
+    /**
+     * Checks if a given ReflectionMethod has exactly one parameter.
+     *
+     * @param \ReflectionMethod $method the method to check
+     *
+     * @return bool true if the method has exactly one parameter, false otherwise
+     */
+    private function hasOnlyOneParameter(\ReflectionMethod $method): bool
+    {
+        return 1 === $method->getNumberOfParameters();
     }
 }

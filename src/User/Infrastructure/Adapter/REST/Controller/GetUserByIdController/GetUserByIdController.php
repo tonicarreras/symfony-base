@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace User\Infrastructure\Adapter\REST\Controller\GetUserByIdController;
 
-use Common\Application\Exception\ValidationException;
-use Common\Domain\Exception\ResourceNotFoundException;
+
 use Common\Infrastructure\Adapter\Response\SuccessResponse;
 use Common\Infrastructure\Adapter\REST\Controller\CommandQueryController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,9 +20,6 @@ class GetUserByIdController extends CommandQueryController
      * @param string $id the Uuid of the user
      *
      * @return JsonResponse the response in JSON format
-     *
-     * @throws ResourceNotFoundException
-     * @throws ValidationException
      */
     #[Route('/user/get/{id}', name: 'get_user_by_id', methods: ['GET'])]
     public function __invoke(string $id, GetUserByIdQueryHandler $handler): JsonResponse
