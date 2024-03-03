@@ -8,7 +8,7 @@ security:
     providers:
         # The 'app_user_provider' is a custom user provider.
         app_user_provider:
-            id: 'User\Infrastructure\Adapter\Security\UserProvider'
+            id: 'User\Infrastructure\Security\UserProvider'
     
     # Firewalls are used to restrict access based on patterns and other rules.
     firewalls:

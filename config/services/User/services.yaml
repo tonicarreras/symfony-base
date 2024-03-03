@@ -8,8 +8,8 @@ services:
   User\:
     resource: ../../../src/User
 
-  User\Infrastructure\Adapter\REST\Controller\:
-    resource: ../../../src/User/Infrastructure/Adapter/REST/Controller
+  User\Infrastructure\REST\Controller\:
+    resource: ../../../src/User/Infrastructure/REST/Controller
     tags: [ controller.service_arguments ]
 
   # Instance configuration for specific classes.
@@ -22,15 +22,15 @@ services:
       tags: [ user.query_handler ]
 
   # Defines the InMemorySymfonyCommandBus service.
-  Common\Infrastructure\Implementation\Bus\Command\Symfony\InMemorySymfonyCommandBus:
+  Common\Infrastructure\Bus\Command\Symfony\InMemorySymfonyCommandBus:
     arguments: [ !tagged_iterator user.command_handler ]  # Injects all tagged command handlers.
 
   # Defines the InMemorySymfonyQueryBus service.
-  Common\Infrastructure\Implementation\Bus\Query\Symfony\InMemorySymfonyQueryBus:
+  Common\Infrastructure\Bus\Query\Symfony\InMemorySymfonyQueryBus:
     arguments: [ !tagged_iterator user.query_handler ]  # Injects all tagged query handlers.
 
   # In-Memory Event Bus
   # Defines the InMemorySymfonyEventBus service.
-  Common\Infrastructure\Implementation\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus:
+  Common\Infrastructure\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus:
     arguments: [ !tagged_iterator user.domain_event_subscriber ]  # Injects all tagged domain event subscribers.
     lazy: true  # The service is only initialized when it's actually needed.

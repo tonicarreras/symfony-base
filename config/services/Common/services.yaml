@@ -8,11 +8,11 @@ services:
   Common\:
     resource: ../../../src/Common
 
-  Common\Infrastructure\Adapter\Listener\JsonExceptionListener:
+  Common\Infrastructure\Listener\JsonExceptionListener:
     tags:
       - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
-  Common\Infrastructure\Adapter\Listener\RequestListener:
+  Common\Infrastructure\Listener\RequestListener:
     tags:
       - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
@@ -28,11 +28,11 @@ services:
       $level: 'error'
       $stream: '%kernel.logs_dir%/exception_%kernel.environment%.log'
 
-  Common\Infrastructure\Implementation\Logger\MonologLogger:
+  Common\Infrastructure\Logger\MonologLogger:
     arguments:
       $logger: '@Monolog\Logger'
 
   # -- IMPLEMENTATIONS SELECTOR --
   # Defines the EventBus service.
   Common\Domain\Bus\Event\EventBus:
-    class: 'Common\Infrastructure\Implementation\Bus\Event\MySql\MySqlDoctrineEventBus'
+    class: 'Common\Infrastructure\Bus\Event\MySql\MySqlDoctrineEventBus'
