@@ -91,8 +91,9 @@ php bin/console doctrine:migrations:migrate
 - JWT PEM
 
 > [!IMPORTANT]
-> LexikJWTAuthenticationBundle requires a private and public key to sign and verify the JWT token. 
-> JWT_PASSPHRASE=your_secret_passphrase on .env file This is to protect /api routes with JWT authentication.
+> **LexikJWTAuthenticationBundle** requires a private and public key to sign and verify the JWT token. 
+> **JWT_PASSPHRASE=your_secret_passphrase** on **.env** file.
+> This is to protect **/api** routes with JWT authentication.
 
 ```shell
 ## Recommended: With passphrase
