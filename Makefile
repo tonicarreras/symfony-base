@@ -64,3 +64,6 @@ psalm: ## Run psalm
 
 phpcsfixer: ## Run php-cs-fixer
 	docker exec ${SYMFONY_BASE_CONTAINER} php ./vendor/bin/php-cs-fixer fix
+
+composer-update: ## Run composer update
+	docker exec ${SYMFONY_BASE_CONTAINER} composer update
