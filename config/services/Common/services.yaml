@@ -31,3 +31,8 @@ services:
   Common\Infrastructure\Implementation\Logger\MonologLogger:
     arguments:
       $logger: '@Monolog\Logger'
+
+  # -- IMPLEMENTATIONS SELECTOR --
+  # Defines the EventBus service.
+  Common\Domain\Bus\Event\EventBus:
+    class: 'Common\Infrastructure\Implementation\Bus\Event\MySql\MySqlDoctrineEventBus'

@@ -34,7 +34,3 @@ services:
   Common\Infrastructure\Implementation\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus:
     arguments: [ !tagged_iterator user.domain_event_subscriber ]  # Injects all tagged domain event subscribers.
     lazy: true  # The service is only initialized when it's actually needed.
-
-  # -- IMPLEMENTATIONS SELECTOR --
-  # Defines the EventBus service and sets its implementation to InMemorySymfonyEventBus.
-  Common\Domain\Bus\Event\EventBus: '@Common\Infrastructure\Implementation\Bus\Event\Symfony\InMemory\InMemorySymfonyEventBus'
