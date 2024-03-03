@@ -1,38 +1,37 @@
-version: "3.5"
+version: "3.8"
 
 services:
 
+  # PHP Service
   php:
-    container_name: symfony_php
+    container_name: symfony-base
     restart: unless-stopped
     ports:
       - "8000:8000"
     build:
       context: ./docker/php
-      args:
-        UID: $U_ID
     volumes:
-      - .:/app
+      - .:/var/www/html
     networks:
-      - symfony_network
+      - api-network
     depends_on:
       - mysql
     command: symfony serve --dir=./public --port=8000
 
-
+  # MySQL Service
   mysql:
-    container_name: mysql
-    image: mysql:8.2
+    container_name: symfony-mysql
+    build:
+      context: ./docker/mysql
     restart: always
     ports:
-      - "3336:3306"
-    environment:
-      MYSQL_DATABASE: symfony_database
-      MYSQL_ROOT_PASSWORD: root
+      - "3306:3306"
+    env_file:
+      - ./docker/mysql/env/mysql.env
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     networks:
-      - symfony_network
+      - api-network
     command:
       [
         "mysqld",
@@ -41,9 +40,8 @@ services:
       ]
 
 networks:
-  symfony_network:
+  api-network:
+    name: api-network
 
 volumes:
-  mysql_data:
-
-
+  mysql-data:

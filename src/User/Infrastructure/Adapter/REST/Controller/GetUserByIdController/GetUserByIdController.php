@@ -21,7 +21,7 @@ class GetUserByIdController extends CommandQueryController
      *
      * @return JsonResponse the response in JSON format
      */
-    #[Route('/user/get/{id}', name: 'get_user_by_id', methods: ['GET'])]
+    #[Route('/api/user/get/{id}', name: 'get_user_by_id', methods: ['GET'])]
     public function __invoke(string $id, GetUserByIdQueryHandler $handler): JsonResponse
     {
         $response = $this->ask(new GetUserByIdQuery($id));

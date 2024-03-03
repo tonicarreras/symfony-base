@@ -27,6 +27,7 @@ final class UserRoles extends ArrayValueObject
      */
     public function __construct(array $value)
     {
+        $value[] = 'ROLE_USER';
         $violations = $this->validateRoles($value);
         if (!empty($violations)) {
             throw new ValidationException($violations);
